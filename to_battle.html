@@ -1,0 +1,110 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+body {
+	font-family: Sans-Serif;
+}
+table {
+	font-size: 11px;
+}
+td {
+	vertical-align: top;
+}
+input {
+	width: 50px;
+}
+</style>
+</head>
+<body>
+<table>
+<tr>
+<th>Charaktere</th>
+<th>Optionen</th>
+<th>NSCs</th>
+</tr></tr>
+<tr><td><input type="button" value="Import"/></td>
+<td>&nbsp;</td>
+<td><input type="button" value="Export"/></td>
+</tr><tr>
+<td><ul>
+<li>
+<b>Alexei</b>
+<div>Rüstung: Helm: <input type="text" value="20"/> Visir: <input type="text" value="10"/> Vest: <input type="text" value="20"/></div>
+<div>Wafe: <select><option>AK 47</option><option>Fettes Rohr</option><option>Grach</option></select></div>
+<div>Schussmenge: <select><option>Einzel</option><option>3 Schuss</option><option>20 Schuss</option></select></div>
+<div>Gegner: <select><option>Eins</option><option>Zwei</option></select></div>
+<div><input type="button" value="Attacke" style="width: 75px;"/></div>
+</li>
+<li>
+<b>Pjotr</b>
+<div>Rüstung: Helm: <input type="text" value="20"/> Visir: <input type="text" value="10"/> Vest: <input type="text" value="20"/></div>
+<div>Waffe: <select><option>Axt</option><option>Boxen</option><option>Schleuder</option></select></div>
+<div>Gegner: <select><option>Eins</option><option>Zwei</option></select></div>
+<div>Schussmenge: <select><option>Einzel</option></select></div>
+<div><input type="button" value="Attacke" style="width: 75px;"/></div>
+</li>
+<li>
+<b>Soshkin</b>
+<div>Rüstung: Helm: <input type="text" value="20"/> Visir: <input type="text" value="10"/> Vest: <input type="text" value="20"/></div>
+<div>Wafe: <select><option>AK 47</option><option>Bogen</option></select></div>
+<div>Gegner: <select><option>Eins</option><option>Zwei</option></select></div>
+<div>Schussmenge: <select><option>Einzel</option><option>3 Schuss</option><option>20 Schuss</option></select></div>
+<div><input type="button" value="Attacke" style="width: 75px;"/></div>
+</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Distanz: <input type="text" value="30"/> Meter</li>
+<li>Glück: <input type="text" value="0"/></li>
+<li><input type="checkbox"/>Ziel unbeweglich</li>
+<li><input type="text" value="0"/>Malus durch Ausweichen</li>
+<li><input type="checkbox"/>Waffe ziehen + schießen</li>
+<li><input type="checkbox"/>Hinterhalt</li>
+<li><select><option>Kopf -4</option><option>Hals -6</option><option>Etc.</option></select>Auf Körperteil gezielt</li>
+<li><input type="checkbox"/>Abprallen / Indirekt</li>
+<li><input type="checkbox"/>Geblendet (Licht, Staub)</li>
+<li><input type="checkbox"/>Ziel silhouettiert / erhellt</li>
+<li><input type="checkbox"/>Umdrehen / Bewegen</li>
+<li><input type="checkbox"/>Zum Ziel drehen</li>
+<li><input type="checkbox"/>Durchschlag</li>
+</ul>
+</td>
+<td><ul>
+<li>
+<b>Eins - KO</b>
+<div>Rüstung: Helm: <input type="text" value="20"/> Visir: <input type="text" value="10"/> Vest: <input type="text" value="16"/></div>
+<div>Wafe: <select><option>AK 47</option><option>Grach</option><option>Heizungsrohr</option></select></div>
+<div>Gegner: <select><option>Alexei</option><option>Pjotr</option><option>Soshkin</option></select></div>
+<div>Schussmenge: <select><option>Einzel</option><option>3 Schuss</option><option>20 Schuss</option></select></div>
+<div><input type="button" value="Attacke" style="width: 75px;"/></div>
+</li>
+<li>
+<b>Zwei - TOT</b>
+<div>Rüstung: Helm: <input type="text" value="20"/> Visir: <input type="text" value="10"/> Vest: <input type="text" value="20"/></div>
+<div>Wafe: <select><option>AK 47</option><option>Bogen</option><option>Heizungsrohr</option></select></div>
+<div>Gegner: <select><option>Alexei</option><option>Pjotr</option><option>Soshkin</option></select></div>
+<div>Schussmenge: <select><option>Einzel</option><option>3 Schuss</option><option>20 Schuss</option></select></div>
+<div><input type="button" value="Attacke" style="width: 75px;"/></div>
+</li>
+</ul></td></tr></table>
+<ul>
+<li><b>Alexei</b> attackiert <b>Eins</b> mit AK 47, 20 Schuss (+2). Roll: 2 Ergebnis: 21. Es treffen <b>6 Schuss</b> <input type="button" value="replay"/><br/>
+Rüstung vor Treffer: Helm: 20, Visir 10, Vest: 20<br/>
+1. Trefferzone:  8 R. Arm, Schaden: 18, Durchschlag: 5, Rüstung: 0, BTM -2, Schaden *0.5, <b>Schaden 2, Prell 1</b> <br/>
+2. Trefferzone:  9 Schultern, Schaden 19, Durchschlag: 5, Rüstung: 10, BTM -2, <b>Schaden 3, Prell 12, Rüstung -1</b><br/>
+3. Trefferzone: 11 Torso, Schaden: 18, Durchschlag: 6, Rüstung: 10, BTM -2, <b>Schaden 4, Prell 11, Rüstung -1</b><br/>
+4. Trefferzone: 15 L. Bein, Schaden: 14, Durchschlag: 8, Rüstung: 0, BTM -2, Schaden *0.5, <b>Schaden 3, Prell 1</b><br/>
+5. Trefferzone: 13 Vitals, Schaden: 20, Durchschlag: 6, Rüstung: 8, BTM -2, Schaden *1.5, <b>Schaden 6, Prell 10, Rüstung -1</b><br/>
+6. Trefferzone: 10 Torso, Schaden: 14, Durchschlag: 8, Rüstung: 8, BTM -2, <b>Schaden 4, Prell 10, Rüstung -1</b><br/>
+Prellschadenüberlauf: 45 = <b>9 Schaden</b><br/>
+Ergebnis: <b>31 Schaden, 0 Prell, KO, Lebt</b><br/>
+</li>
+<li><b>Pjotr</b> attackiert <b>Zwei</b> mit Axt, 1 Schlag, gezielt auf Hals -6, 3 Punkte Glück. Roll: 8 Ergebnis: 20. Es treffen <b>1 Schlag</b> <input type="button" value="replay"/><br/>
+Rüstung vor Treffer: Helm: 20, Visir 10, Vest: 20<br/>
+1. Trefferzone: -- Hals, Schaden: 16, 10, BTM -2, Schaden *2, Schadenslimit: 8 <b>Schaden 8 Trefferzone zerstört.</b><br/>
+Ergebnis: <b>Hals zerstört. Tot</b>
+</ul>
+</body>
+</html>

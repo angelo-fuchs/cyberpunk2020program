@@ -1,0 +1,74 @@
+{
+	"base": [
+		{"name": "Handle", "value": "Beispiel"},
+		{"name": "Age", "value": 25}],
+	"attributes": [
+		{"name": "Ref",
+		"value": 9},
+		{"name": "Int",
+		"value": 6},
+		{"name": "Tech",
+		"value": 5}
+	],
+	"skills": [
+		{
+		"name": "Gewehr",
+      "value": 5,
+		"base": "Ref",
+		"factor": 1
+		},{
+		"name": "Pistole",
+		"value": 1,
+		"base": "Ref",
+		"factor": 1
+		},{
+		"name": "Waffentechnik",
+		"value": 1,
+		"base": "Tech",
+		"factor": 2
+		}
+	],
+	"weapons": [
+		{"name": "AK-47",
+		"skill": "Gewehr",
+		"bonus": [0, 0, 0, 0],
+		"ammunition": 30,
+		"range": 400,
+		"firemodes": [1, 10, 30],
+		"concealability": "Nicht"
+		},
+		{"name": "Grach",
+		"skill": "Pistole",
+		"bonus": [0, 0, 0, 0],
+		"ammunition": 12,
+		"range": 50,
+		"firemodes": [1],
+		"concealability": "Tasche"
+		}
+	],
+	"armor": [{
+		"name": "Flak Veste",
+		"areas": ["Torso"],
+		"sp": 20,
+		"hard": false,
+		"encumberence": 2
+		}, {
+		"name": "Stahl Helm",
+		"areas": ["Head"],
+		"sp": 10,
+		"hard": true,
+		"encumberence": 1
+		}, {
+		"name": "Kevlar Jacke",
+		"areas": ["Torso", "Arme"],
+		"sp": 10,
+		"hard": false,
+		"encumberence": 0
+		}
+	],
+	"inventory": [
+		{"name": "Backpack",
+		"weight": 1.5,
+		"amount": 1}
+	]		
+}

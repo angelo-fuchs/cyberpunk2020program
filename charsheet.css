@@ -1,0 +1,94 @@
+html {
+
+}
+body {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	font-family: Helvetica,Univers,Arial,sans-serif;
+	line-height: 135%;
+	background: #fff;
+}
+
+h2 {
+	color: #000;
+	font-size: 26px;
+	margin: 0 0 11px;
+	padding: 0;
+}
+.valueInput {
+	width: 50px;
+}
+
+#base div {
+	float: left;
+}
+
+#base {
+	clear: both;
+}
+#base div div input {
+	width: 150px;
+}
+#attributes div {
+	float: left;
+}
+#attributes div div {
+	float: none;
+}
+#attributes {
+	clear: both;
+}
+.headerDiv {
+	clear: both;
+}
+.skillDiv {
+	clear: both;
+}
+.skillDiv div {
+	float: left;
+}
+#skills .nameDiv {
+	width: 150px;
+}
+#skills div .valueInput {
+	width: 50px;
+}
+#skills {
+	clear: both;
+}
+#weapons {
+	clear: both;
+}
+.weaponDiv {
+	clear: both;
+	border-top: 1px solid gray;
+}
+.weaponDiv .nameDiv {
+	font-weight: bold;
+	clear: both;
+}
+.weaponDiv div {
+	float: left;
+	clear: none;
+	padding-right: 5px;
+}
+.weaponDiv .racDiv div {
+	float: none;
+	text-align: right;
+}
+.firemodesDiv .firemodeTitleDiv {
+	float: none;
+}
+.firemodesDiv div {
+	float: left;
+}
+.bonusDiv {
+	text-align: right;
+}
+.bonusDiv div {
+	float: none;
+}
+#inventory {
+	clear: both;
+}

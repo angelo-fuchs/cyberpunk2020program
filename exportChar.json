@@ -1,0 +1,6 @@
+{
+"attributes":[{"Name":"Ref","Value":9},{"Name":"Int","Value":6},{"Name":"Tech","Value":5},{"Name":"Luck","Value":0},{"Name":"Attr","Value":0},{"Name":"Cool","Value":0},{"Name":"Emp","Value":0},{"Name":"Move","Value":0}],
+"base":[{"Name":"Handle","Value":"Beispiel"},{"Name":"Age","Value":25}],
+"skills":[{"Name":"Rifle","Value":5,"Base":"REF","Factor":1},{"Name":"Weaponsmith","Value":1,"Base":"TECH","Factor":2}],
+"weapons":[{"Name":"AK-47","Skill":"Rifle","Bonus":[0],"Ammunition":30,"Firemodes":[1,10,30],"Concealability":"not"}],
+"inventory":[{"Name":"Backpack","Weight":1.5,"Amount":1}]}
