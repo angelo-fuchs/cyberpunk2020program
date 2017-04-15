@@ -1,6 +1,6 @@
 var currentChar = undefined;
-function refresh() {
-	currentChar = chars.pop();
+function refresh(char) {
+	currentChar = char;
 	refreshValues();
 }
 
@@ -20,11 +20,11 @@ function refreshValues() {
 function refreshPart(id, array) {
 	elem = document.getElementById(id);
 	clearNode(elem);
-	if(id == "base" || id == "attributes") {
+	if(id === "base" || id === "attributes") {
 		populateBaseAttrNode(elem, array, id);
-	} else if(id == "skills") {
+	} else if(id === "skills") {
 		populateSkillNode(elem, array);
-	} else if(id == "weapons") {
+	} else if(id === "weapons") {
 		populateWeaponNode(elem, array);
 	}
 }
@@ -39,14 +39,14 @@ function clearNode(node) {
 function populateWeaponNode(node, dataArray) {
 	dataArray.sort(function (a,b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
-		if(skillCompare != 0) return skillCompare;
+		if(skillCompare !== 0) return skillCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	
 	headerDiv = makeElement(node, "div", "headerDiv");
 	headerH2 = makeElement(headerDiv, "h2", "headerH2");
 	headerH2.innerHTML = "Waffen";
-	for (ii in dataArray) {
+	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
 		myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv");
 		skillDiv = makeSkillDiv(myDiv, nextWeapon.skill, node.id, nextWeapon.name);
@@ -61,7 +61,7 @@ function populateWeaponNode(node, dataArray) {
 
 function makeGenericInputDiv(parentDiv, value, rowIdentifier, type, label) {
 	genericDiv = makeElement(parentDiv, "div", type + "Div");
-	if(label != undefined) {
+	if(label !== undefined) {
 		genericDiv.innerHTML = label + ": ";
 	}
 	genericInput = makeElement(genericDiv, "input", type + "Input, valueInput");
@@ -73,7 +73,7 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	firemodesDiv = makeElement(myDiv, "div", "firemodesDiv");
 	nameDiv = makeElement(firemodesDiv, "div", "firemodeTitleDiv");
 	nameDiv.innerHTML = "Feuerfrequenzen";
-	for(ii in value)
+	for(var ii in value)
 		makeGenericInputDiv(firemodesDiv, value[ii], ii + "-" + nodeId + "-" + name, "firemode");
 	return firemodesDiv;
 }
@@ -119,14 +119,14 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 function populateSkillNode(node, dataArray) {
 	dataArray.sort(function (a,b) {
 		var baseCompare = a.base.toLowerCase().localeCompare(b.base.toLowerCase());
-		if(baseCompare != 0) return baseCompare;
+		if(baseCompare !== 0) return baseCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	var currentAttr = "";
-	for(ii in dataArray) {
+	for(var ii in dataArray) {
 		var nextSkill = dataArray[ii];
 		// print out Base as Header when it changes.
-		if(nextSkill.base.toLowerCase() != currentAttr) {
+		if(nextSkill.base.toLowerCase() !== currentAttr) {
 			currentAttr = nextSkill.base;
 			headerDiv = makeElement(node, "div", "headerDiv");
 			headerH2 = makeElement(headerDiv, "h2", "headerH2");
@@ -180,7 +180,7 @@ function makeBaseDiv(myDiv, value, nodeId, name) {
 function makeOption(select, value, selectedValue) {
 	option = makeElement(select, "option");
 	option.value = value;
-	if(value.toLowerCase().localeCompare(selectedValue.toLowerCase()) == 0) {
+	if(value.toLowerCase().localeCompare(selectedValue.toLowerCase()) === 0) {
 		option.selected = "selected";
 	}
 	option.innerHTML = value;
@@ -191,10 +191,10 @@ function populateBaseAttrNode(node, dataArray, id) {
 	dataArray.sort(function (a,b) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
-	for (ii in dataArray) {
+	for (var ii in dataArray) {
 		nextData = dataArray[ii];
 		myDiv = makeNameDiv(node, nextData.name, id + "Div");
-		makeValueDiv(myDiv, nextData.value, node.id, nextData.name)
+		makeValueDiv(myDiv, nextData.value, node.id, nextData.name);
 	}
 }
 
@@ -206,7 +206,5 @@ function makeElement(parentNode, type, className) {
 }
 
 function exportChar() {
-	chars.push(currentChar);
 	charExport(currentChar, "export");
-	chars.pop();
 }

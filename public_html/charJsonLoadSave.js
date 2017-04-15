@@ -1,6 +1,3 @@
-var chars = new Array(4);
-var nscs = new Array(10);
-
 function charImport(callback) {
 	var pom = document.createElement('input');
 	pom.setAttribute('type', 'file');
@@ -11,7 +8,7 @@ function charImport(callback) {
 	pom.onchange = function() {
 		var f = pom.files[0];
 		loadCharFromFile(f, callback);
-	}
+	};
 	pom.click();
 
 	document.body.removeChild(pom);
@@ -21,19 +18,11 @@ function loadCharFromFile(f, callback) {
 	var r = new FileReader();
 	r.onload = function() {
 		var allText = r.result;
-		importChar(allText);
-		callback();
-	}
+		loadedChar = new Char();
+		loadedChar.load(allText);
+		callback(loadedChar);
+	};
 	r.readAsText(f);
-}
-
-function importChar(which) {
-	var newChar = new Char();
-	newChar.load(which);
-	if(window.confirm("Ok: Import as char, Cancel: Import as NSC"))
-		chars.push(newChar);
-	else
-		nscs.push(newChar);
 }
 
 function charExport(which, name) {

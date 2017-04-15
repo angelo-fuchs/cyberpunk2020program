@@ -8,7 +8,7 @@
 </head>
 <body>
 <input type="button" value="Create" onClick="newChar();"/>
-<input type="button" value="Import" onClick="charImport(function() {refresh();});"/>
+<input type="button" value="Import" onClick="charImport(function(loadedCharacter) {refresh(loadedCharacter);});"/>
 <input type="button" value="Export" onclick="exportChar();" />
 <div id="base"></div>
 <div id="attributes"></div>
