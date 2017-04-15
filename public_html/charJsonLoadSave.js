@@ -1,3 +1,8 @@
+/**
+ * Opens a "Open File" Dialog and processes the loaded file as a character.
+ * @param {function} callback a function with one parameter (Char) that will be called when the loading finished.
+ * @returns {undefined} Nothing.
+ */
 function charImport(callback) {
 	var pom = document.createElement('input');
 	pom.setAttribute('type', 'file');

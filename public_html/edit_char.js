@@ -1,3 +1,5 @@
+// this is the Javascript managing the edit_char.html page and shound only be loaded there.
+
 var currentChar = undefined;
 function refresh(char) {
 	currentChar = char;
@@ -206,5 +208,102 @@ function makeElement(parentNode, type, className) {
 }
 
 function exportChar() {
+	var charMap = serialize(document.getElementById("characterForm"));
+	currentChar = new Char();
+	for(var ii in currentChar.attributes) {
+		var nextAttr = currentChar.attributes[ii];
+		nextAttr.value = charMap.get(uniqueInputname("value-attributes-" + nextAttr.name));
+	}
+	
+	for(var ii in currentChar.base) {
+		var nextBase = currentChar.base[ii];
+		nextBase.value = charMap.get(uniqueInputname("value-base-" + nextBase.name));
+	}
+	
+	charMap.forEach(function(value, key) {
+		if(key.match('.*-attributes-.*')) {
+			// ignore
+		} else if(key.match('.*-base-.*')) {
+			// ignore
+		} else if(key.match('.*-skills-.*')) {
+			console.log('Skill: ' + key);
+		} else if (key.match('.*-weapon.*')) {
+			console.log('Weapon: ' + key);
+		} else {
+			alert("Undefined key in export: " + key);
+		}
+	});
+	
+//Weapon: skill-weapons-ak-47
+//Skill: factor-skills-waffentechnik
+	
 	charExport(currentChar, "export");
+}
+
+/**
+ * Function returns list of input name:value sets from a form.
+ * Basis taken from: http://stackoverflow.com/questions/23139876/getting-all-form-values-by-javascript
+ * @param {form} form
+ * @returns {map} Key Value Pairs.
+ */
+function serialize(form) {
+
+	var data = new Map();
+	if (!form || form.nodeName !== "FORM") {
+		return;
+	}
+	for (var ii = form.elements.length - 1; ii >= 0; ii = ii - 1) {
+		if (form.elements[ii].name === "") {
+			continue;
+		}
+		switch (form.elements[ii].nodeName) {
+			case 'INPUT':
+				switch (form.elements[ii].type) {
+					case 'text':
+					case 'hidden':
+					case 'password':
+					case 'button':
+					case 'reset':
+					case 'submit':
+						data.set(form.elements[ii].name, form.elements[ii].value);
+						break;
+					case 'checkbox':
+					case 'radio':
+						if (form.elements[ii].checked) {
+							data.set(form.elements[ii].name, form.elements[ii].value);
+						}
+						break;
+				}
+				break;
+			case 'file':
+				break;
+			case 'TEXTAREA':
+				data.set(form.elements[ii].name, form.elements[ii].value);
+				break;
+			case 'SELECT':
+				switch (form.elements[ii].type) {
+					case 'select-one':
+						data.set(form.elements[ii].name, form.elements[ii].value);
+						break;
+					case 'select-multiple':
+						for (var jj = form.elements[ii].options.length - 1; jj >= 0; jj = jj - 1) {
+							if (form.elements[ii].options[jj].selected) {
+								data.set(form.elements[ii].name, form.elements[ii].options[jj].value);
+							}
+						}
+						break;
+				}
+				break;
+			case 'BUTTON':
+				switch (form.elements[ii].type) {
+					case 'reset':
+					case 'submit':
+					case 'button':
+						data.set(form.elements[ii].name, form.elements[ii].value);
+						break;
+				}
+				break;
+		}
+	}
+	return data;
 }

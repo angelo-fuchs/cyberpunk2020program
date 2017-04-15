@@ -1,21 +1,25 @@
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<script src="Char.js"></script>
-	<script src="charJsonLoadSave.js"></script>
-	<script src="edit_char.js"></script>
-	<link rel="stylesheet" type="text/css" href="charsheet.css" />
-</head>
-<body>
-<input type="button" value="Create" onClick="newChar();"/>
-<input type="button" value="Import" onClick="charImport(function(loadedCharacter) {refresh(loadedCharacter);});"/>
-<input type="button" value="Export" onclick="exportChar();" />
-<div id="base"></div>
-<div id="attributes"></div>
-<div id="skills"></div>
-<div id="weapons"></div>
-<div id="armor"></div>
-<div id="inventory"></div>
-<div id="disAdvantages"></div>
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="Char.js"></script>
+		<script src="charJsonLoadSave.js"></script>
+		<script src="edit_char.js"></script>
+		<link rel="stylesheet" type="text/css" href="charsheet.css" />
+	</head>
+	<body>
+		<input type="button" value="Create" onClick="newChar();" name="function-create"/>
+		<input type="button" value="Import" onClick="charImport(function (loadedCharacter) {
+		refresh(loadedCharacter);
+	});" name="function-import"/>
+		<input type="button" value="Export" onclick="exportChar();" name="function-export"/>
+		<form id="characterForm">
+			<div id="base"></div>
+			<div id="attributes"></div>
+			<div id="skills"></div>
+			<div id="weapons"></div>
+			<div id="armor"></div>
+			<div id="inventory"></div>
+			<div id="disAdvantages"></div>
+		</form>
+	</body>
 </html>
