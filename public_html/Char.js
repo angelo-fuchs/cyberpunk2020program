@@ -59,7 +59,7 @@ Char.prototype = {
 		var baseArray = this.getBaseArrayByName(path[0]);
 		var element = this.getOrCreateElementFromName(baseArray, path[1]);
 		if(path.length === 3) { // the default case, we have a property that we set directly.
-			//element.path[3] = value;
+			element[path[2]] = value;
 		}
 	},
 	getOrCreateElementFromName: function (baseArray, name) {

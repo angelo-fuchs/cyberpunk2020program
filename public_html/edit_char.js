@@ -1,6 +1,7 @@
 // this is the Javascript managing the edit_char.html page and shound only be loaded there.
 
 var utilities = utilities || {};
+var loadSave = loadSave || {};
 
 function refresh(char) {
 	refreshValues(char);
@@ -50,7 +51,7 @@ function populateWeaponNode(node, dataArray) {
 	headerH2.innerHTML = "Waffen";
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv");
+		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true);
 		var skillDiv = makeSkillDiv(myDiv, nextWeapon.skill, node.id, nextWeapon.name);
 		var bonusDiv = makeBonusDiv(myDiv, nextWeapon.bonus, node.id, nextWeapon.name);
 		var racDiv = makeElement(myDiv, "div", "racDiv");
@@ -89,7 +90,7 @@ function makeAmmunitionDiv(myDiv, value, nodeId, name) {
 }
 
 function makeRangeDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "range", "Reichweite");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "range", "Reichweite");
 }
 
 function makeBonusDiv(myDiv, value, nodeId, name) {
@@ -138,17 +139,24 @@ function populateSkillNode(node, dataArray) {
 			headerH2.innerHTML = currentAttr;
 			currentAttr = currentAttr.toLowerCase();
 		}
-		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv");
+		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true);
 		var valueDiv = makeValueDiv(myDiv, nextSkill.value, node.id, nextSkill.name);
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
 	}
 }
 
-function makeNameDiv(node, name, className) {
+function makeNameDiv(node, name, className, withHiddenInput) {
 	var myDiv = makeElement(node, "div", className);
 	var nameDiv = makeElement(myDiv, "div", "nameDiv");
 	nameDiv.innerHTML = name;
+	if(withHiddenInput) {
+		var type = "name";
+		var hiddenInput = makeElement(nameDiv, "input", type + "Input, hiddenInput");
+		hiddenInput.value = name;
+		hiddenInput.type = "hidden";
+		hiddenInput.name = uniqueInputname(node.id, name, type);
+	}
 	return myDiv;
 }
 
@@ -236,18 +244,5 @@ function exportChar() {
 		currentChar.addElement(arrayFromUniqueInputName(key), value);
 	});
 
-//Weapon: firemode-2-weapons-ak-47
-//Weapon: firemode-1-weapons-ak-47
-//Weapon: firemode-0-weapons-ak-47
-//Weapon: concealability-weapons-ak-47
-//Weapon: ammunition-weapons-ak-47
-//Weapon: range-weapons-ak-47
-//Weapon: distance-extrem-weapons-ak-47
-//Weapon: distance-weit-weapons-ak-47
-//Weapon: distance-medium-weapons-ak-47
-//Weapon: distance-nah-weapons-ak-47
-//Weapon: skill-weapons-ak-47
-//Skill: factor-skills-waffentechnik
-
-	charExport(currentChar, "export");
+	loadSave.charExport(currentChar, "export");
 }
