@@ -83,11 +83,12 @@ h2 {
 .firemodesDiv div {
 	float: left;
 }
-.bonusDiv {
+.bonusNameDiv {
 	text-align: right;
 }
-.bonusDiv div {
+.bonusNameDiv div {
 	float: none;
+	clear: left;
 }
 #inventory {
 	clear: both;
