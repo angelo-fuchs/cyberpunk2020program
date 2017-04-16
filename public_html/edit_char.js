@@ -1,17 +1,16 @@
 // this is the Javascript managing the edit_char.html page and shound only be loaded there.
 
-var currentChar = undefined;
+var utilities = utilities || {};
+
 function refresh(char) {
-	currentChar = char;
-	refreshValues();
+	refreshValues(char);
 }
 
 function newChar() {
-	currentChar = new Char();
-	refreshValues();
+	refreshValues(new Char());
 }
 
-function refreshValues() {
+function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
 	refreshPart("skills", currentChar.skills);
@@ -20,31 +19,32 @@ function refreshValues() {
 }
 
 function refreshPart(id, array) {
-	elem = document.getElementById(id);
+	var elem = document.getElementById(id);
 	clearNode(elem);
-	if(id === "base" || id === "attributes") {
+	if (id === "base" || id === "attributes") {
 		populateBaseAttrNode(elem, array, id);
-	} else if(id === "skills") {
+	} else if (id === "skills") {
 		populateSkillNode(elem, array);
-	} else if(id === "weapons") {
+	} else if (id === "weapons") {
 		populateWeaponNode(elem, array);
 	}
 }
 
 function clearNode(node) {
-	while(node.childNodes.length > 0) {
-		nextChild = node.childNodes[0];
+	while (node.childNodes.length > 0) {
+		var nextChild = node.childNodes[0];
 		node.removeChild(nextChild);
 	}
 }
 
 function populateWeaponNode(node, dataArray) {
-	dataArray.sort(function (a,b) {
+	dataArray.sort(function (a, b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
-		if(skillCompare !== 0) return skillCompare;
+		if (skillCompare !== 0)
+			return skillCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
-	
+
 	var headerDiv = makeElement(node, "div", "headerDiv");
 	var headerH2 = makeElement(headerDiv, "h2", "headerH2");
 	headerH2.innerHTML = "Waffen";
@@ -63,7 +63,7 @@ function populateWeaponNode(node, dataArray) {
 
 function makeGenericInputDiv(parentDiv, value, rowIdentifier, type, label) {
 	var genericDiv = makeElement(parentDiv, "div", type + "Div");
-	if(label !== undefined) {
+	if (label !== undefined) {
 		genericDiv.innerHTML = label + ": ";
 	}
 	var genericInput = makeElement(genericDiv, "input", type + "Input, valueInput");
@@ -75,7 +75,7 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	var firemodesDiv = makeElement(myDiv, "div", "firemodesDiv");
 	var nameDiv = makeElement(firemodesDiv, "div", "firemodeTitleDiv");
 	nameDiv.innerHTML = "Feuerfrequenzen";
-	for(var ii in value)
+	for (var ii in value)
 		makeGenericInputDiv(firemodesDiv, value[ii], ii + "-" + nodeId + "-" + name, "firemode");
 	return firemodesDiv;
 }
@@ -120,16 +120,17 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 }
 
 function populateSkillNode(node, dataArray) {
-	dataArray.sort(function (a,b) {
+	dataArray.sort(function (a, b) {
 		var baseCompare = a.base.toLowerCase().localeCompare(b.base.toLowerCase());
-		if(baseCompare !== 0) return baseCompare;
+		if (baseCompare !== 0)
+			return baseCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	var currentAttr = "";
-	for(var ii in dataArray) {
+	for (var ii in dataArray) {
 		var nextSkill = dataArray[ii];
 		// print out Base as Header when it changes.
-		if(nextSkill.base.toLowerCase() !== currentAttr) {
+		if (nextSkill.base.toLowerCase() !== currentAttr) {
 			currentAttr = nextSkill.base;
 			var headerDiv = makeElement(node, "div", "headerDiv");
 			var headerH2 = makeElement(headerDiv, "h2", "headerH2");
@@ -183,7 +184,7 @@ function makeBaseDiv(myDiv, value, nodeId, name) {
 function makeOption(select, value, selectedValue) {
 	option = makeElement(select, "option");
 	option.value = value;
-	if(value.toLowerCase().localeCompare(selectedValue.toLowerCase()) === 0) {
+	if (value.toLowerCase().localeCompare(selectedValue.toLowerCase()) === 0) {
 		option.selected = "selected";
 	}
 	option.innerHTML = value;
@@ -191,7 +192,7 @@ function makeOption(select, value, selectedValue) {
 
 // nicht mit makeBaseDiv verwechseln.
 function populateBaseAttrNode(node, dataArray, id) {
-	dataArray.sort(function (a,b) {
+	dataArray.sort(function (a, b) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	for (var ii in dataArray) {
@@ -209,24 +210,24 @@ function makeElement(parentNode, type, className) {
 }
 
 function exportChar() {
-	var charMap = serialize(document.getElementById("characterForm"));
+	var charMap = utilities.serialize(document.getElementById("characterForm"));
 	currentChar = new Char();
-	for(var ii in currentChar.attributes) {
+	for (var ii in currentChar.attributes) {
 		var nextAttr = currentChar.attributes[ii];
 		nextAttr.value = charMap.get(uniqueInputname("value-attributes-" + nextAttr.name));
 	}
-	
-	for(var ii in currentChar.base) {
+
+	for (var ii in currentChar.base) {
 		var nextBase = currentChar.base[ii];
 		nextBase.value = charMap.get(uniqueInputname("value-base-" + nextBase.name));
 	}
-	
-	charMap.forEach(function(value, key) {
-		if(key.match('.*-attributes-.*')) {
+
+	charMap.forEach(function (value, key) {
+		if (key.match('.*-attributes-.*')) {
 			// ignore
-		} else if(key.match('.*-base-.*')) {
+		} else if (key.match('.*-base-.*')) {
 			// ignore
-		} else if(key.match('.*-skills-.*')) {
+		} else if (key.match('.*-skills-.*')) {
 			console.log('Skill: ' + key);
 		} else if (key.match('.*-weapon.*')) {
 			console.log('Weapon: ' + key);
@@ -234,7 +235,7 @@ function exportChar() {
 			alert("Undefined key in export: " + key);
 		}
 	});
-	
+
 //Weapon: firemode-2-weapons-ak-47
 //Weapon: firemode-1-weapons-ak-47
 //Weapon: firemode-0-weapons-ak-47
@@ -247,74 +248,6 @@ function exportChar() {
 //Weapon: distance-nah-weapons-ak-47
 //Weapon: skill-weapons-ak-47
 //Skill: factor-skills-waffentechnik
-	
+
 	charExport(currentChar, "export");
-}
-
-/**
- * Function returns list of input name:value sets from a form.
- * Basis taken from: http://stackoverflow.com/questions/23139876/getting-all-form-values-by-javascript
- * @param {form} form
- * @returns {map} Key Value Pairs.
- */
-function serialize(form) {
-
-	var data = new Map();
-	if (!form || form.nodeName !== "FORM") {
-		return;
-	}
-	for (var ii = form.elements.length - 1; ii >= 0; ii = ii - 1) {
-		if (form.elements[ii].name === "") {
-			continue;
-		}
-		switch (form.elements[ii].nodeName) {
-			case 'INPUT':
-				switch (form.elements[ii].type) {
-					case 'text':
-					case 'hidden':
-					case 'password':
-					case 'button':
-					case 'reset':
-					case 'submit':
-						data.set(form.elements[ii].name, form.elements[ii].value);
-						break;
-					case 'checkbox':
-					case 'radio':
-						if (form.elements[ii].checked) {
-							data.set(form.elements[ii].name, form.elements[ii].value);
-						}
-						break;
-				}
-				break;
-			case 'file':
-				break;
-			case 'TEXTAREA':
-				data.set(form.elements[ii].name, form.elements[ii].value);
-				break;
-			case 'SELECT':
-				switch (form.elements[ii].type) {
-					case 'select-one':
-						data.set(form.elements[ii].name, form.elements[ii].value);
-						break;
-					case 'select-multiple':
-						for (var jj = form.elements[ii].options.length - 1; jj >= 0; jj = jj - 1) {
-							if (form.elements[ii].options[jj].selected) {
-								data.set(form.elements[ii].name, form.elements[ii].options[jj].value);
-							}
-						}
-						break;
-				}
-				break;
-			case 'BUTTON':
-				switch (form.elements[ii].type) {
-					case 'reset':
-					case 'submit':
-					case 'button':
-						data.set(form.elements[ii].name, form.elements[ii].value);
-						break;
-				}
-				break;
-		}
-	}
-	return data;
 }
