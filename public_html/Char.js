@@ -60,6 +60,13 @@ Char.prototype = {
 		var element = this.getOrCreateElementFromName(baseArray, path[1]);
 		if(path.length === 3) { // the default case, we have a property that we set directly.
 			element[path[2]] = value;
+		} else {
+			var subElement = element[path[2]];
+			if(subElement === undefined) {
+				subElement = [];
+				element[path[2]] = subElement;
+			}
+			subElement[path[3]] = value;
 		}
 	},
 	getOrCreateElementFromName: function (baseArray, name) {
