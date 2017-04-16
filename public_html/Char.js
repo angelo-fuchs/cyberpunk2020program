@@ -20,6 +20,11 @@ function Char() {
 }
 
 Char.prototype = {
+	/**
+	 * fills the properties of this character with the values from the JSON.
+	 * @param {String} jsonString a JSON representation of the values from a Character
+	 * @returns {undefined} nothing.
+	 */
 	load: function (jsonString) {
 		var jsonObj = JSON.parse(jsonString);
 		for (var ii in this.base) {
@@ -41,5 +46,48 @@ Char.prototype = {
 		this.skills = jsonObj.skills;
 		this.weapons = jsonObj.weapons;
 		this.inventory = jsonObj.inventory;
+	},
+	/**
+	 * adds an element to the Character
+	 * @param {Array} path the path to that element. Numbers are treated as arraynodes. 
+	 *							First entry MUST be the lower case root array element (e.G. 'base', 'attributes', etc.)
+	 *							Second entry MUST be the lower case name of that element (e.G. 'Attr', 'Handle', 'AK-47', etc.)
+	 * @param {Object} value the value that element should have
+	 * @returns {undefined} nothing
+	 */
+	addElement: function (path, value) {
+		var baseArray = this.getBaseArrayByName(path[0]);
+		var element = this.getOrCreateElementFromName(baseArray, path[1]);
+		if(path.length === 3) { // the default case, we have a property that we set directly.
+			//element.path[3] = value;
+		}
+	},
+	getOrCreateElementFromName: function (baseArray, name) {
+		for (var jj in baseArray) { // currentElement is an Array at this point.
+			var nextElement = baseArray[jj];
+			if (utilities.equalsIgnoreCase(nextElement.name, name)) {
+				baseArray = nextElement;
+				return nextElement;
+			}
+		}
+		var newElement = {"name": name};
+		baseArray.push(newElement);
+		return newElement;
+	},
+	getBaseArrayByName: function (name) {
+		switch (name) {
+			case 'attributes' :
+				return this.attributes;
+			case 'base' :
+				return this.base;
+			case 'skills' :
+				return this.skills;
+			case 'weapons' :
+				return this.weapons;
+			case 'inventory' :
+				return this.inventory;
+			default:
+				throw 'unexpected base array entry: ' + name;
+		}
 	}
 };

@@ -61,14 +61,14 @@ function populateWeaponNode(node, dataArray) {
 	}
 }
 
-function makeGenericInputDiv(parentDiv, value, rowIdentifier, type, label) {
+function makeGenericInputDiv(parentDiv, value, area, name, type, label, position) {
 	var genericDiv = makeElement(parentDiv, "div", type + "Div");
 	if (label !== undefined) {
 		genericDiv.innerHTML = label + ": ";
 	}
 	var genericInput = makeElement(genericDiv, "input", type + "Input, valueInput");
 	genericInput.value = value;
-	genericInput.name = uniqueInputname(type + "-" + rowIdentifier);
+	genericInput.name = uniqueInputname(area, name, type, position);
 }
 
 function makeFiremodesDiv(myDiv, value, nodeId, name) {
@@ -76,16 +76,16 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	var nameDiv = makeElement(firemodesDiv, "div", "firemodeTitleDiv");
 	nameDiv.innerHTML = "Feuerfrequenzen";
 	for (var ii in value)
-		makeGenericInputDiv(firemodesDiv, value[ii], ii + "-" + nodeId + "-" + name, "firemode");
+		makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemode", undefined, ii);
 	return firemodesDiv;
 }
 
 function makeConcealabilityDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "concealability", "kleinstes Versteck");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "concealability", "kleinstes Versteck");
 }
 
 function makeAmmunitionDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "ammunition", "Magazingröße");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "ammunition", "Magazingröße");
 }
 
 function makeRangeDiv(myDiv, value, nodeId, name) {
@@ -95,21 +95,22 @@ function makeRangeDiv(myDiv, value, nodeId, name) {
 function makeBonusDiv(myDiv, value, nodeId, name) {
 	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv");//makeElement(myDiv, "div", "bonusDiv");
 //	makeNameDiv(bonusDiv, "Bonus", "bonusNameDiv");
-	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name);
-	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name);
-	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name);
-	makeBonusInput(bonusDiv, value[3], "Extrem", nodeId, name);
+	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name, 0);
+	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name, 1);
+	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name, 2);
+	makeBonusInput(bonusDiv, value[3], "Extrem", nodeId, name, 3);
 	return bonusDiv;
 }
 
-function makeBonusInput(myDiv, value, distance, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, distance + "-" + nodeId + "-" + name, "distance", distance);
+function makeBonusInput(myDiv, value, distance, nodeId, name, position) {
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "bonus", distance, position);
 }
 
+// this is in weapons area.
 function makeSkillDiv(myDiv, value, nodeId, name) {
 	var skillDiv = makeElement(myDiv, "div", "skillDiv");
 	var skillSelect = makeElement(skillDiv, "select", "skillSelect");
-	skillSelect.name = uniqueInputname("skill-" + nodeId + "-" + name);
+	skillSelect.name = uniqueInputname(nodeId, name, "skill");
 	makeOption(skillSelect, "Boxen", value);
 	makeOption(skillSelect, "Gewehr", value);
 	makeOption(skillSelect, "Pistole", value);
@@ -152,23 +153,32 @@ function makeNameDiv(node, name, className) {
 }
 
 function makeValueDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "value");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "value");
 }
 
 function makeFactorDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "factor", "Faktor");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "factor", "Faktor");
 }
 
-function uniqueInputname(name) {
-	return name.toLowerCase();
-	// TODO: leerzeichen, sonderzeichen, etc. entfernen.
+var g_uniqueNameSeparator = '~';
+	
+function uniqueInputname(area, name, type, position) {
+	var uniqueInputname = area + g_uniqueNameSeparator + name + g_uniqueNameSeparator + type;
+	if(position !== undefined) {
+		uniqueInputname += g_uniqueNameSeparator + position;
+	}
+	return uniqueInputname.toLowerCase();
+}
+
+function arrayFromUniqueInputName(name) {
+	return name.split(g_uniqueNameSeparator);
 }
 
 // nicht mit populateBaseAttrNode verwechseln. 
 function makeBaseDiv(myDiv, value, nodeId, name) {
 	baseDiv = makeElement(myDiv, "div", "baseDiv");
 	baseSelect = makeElement(baseDiv, "select", "baseSelect");
-	baseSelect.name = uniqueInputname("base-" + nodeId + "-" + name);
+	baseSelect.name = uniqueInputname(nodeId, name, "base");
 	// Attr, Body, Cool, Emp, Int, Luck, Move, Ref, Tech
 	makeOption(baseSelect, "Attr", value);
 	makeOption(baseSelect, "Body", value);
@@ -212,28 +222,18 @@ function makeElement(parentNode, type, className) {
 function exportChar() {
 	var charMap = utilities.serialize(document.getElementById("characterForm"));
 	currentChar = new Char();
-	for (var ii in currentChar.attributes) {
-		var nextAttr = currentChar.attributes[ii];
-		nextAttr.value = charMap.get(uniqueInputname("value-attributes-" + nextAttr.name));
-	}
-
-	for (var ii in currentChar.base) {
-		var nextBase = currentChar.base[ii];
-		nextBase.value = charMap.get(uniqueInputname("value-base-" + nextBase.name));
-	}
+//	for (var ii in currentChar.attributes) {
+//		var nextAttr = currentChar.attributes[ii];
+//		nextAttr.value = charMap.get(uniqueInputname("attributes", nextAttr.name, "value"));
+//	}
+//
+//	for (var ii in currentChar.base) {
+//		var nextBase = currentChar.base[ii];
+//		nextBase.value = charMap.get(uniqueInputname("base", nextBase.name, "value"));
+//	}
 
 	charMap.forEach(function (value, key) {
-		if (key.match('.*-attributes-.*')) {
-			// ignore
-		} else if (key.match('.*-base-.*')) {
-			// ignore
-		} else if (key.match('.*-skills-.*')) {
-			console.log('Skill: ' + key);
-		} else if (key.match('.*-weapon.*')) {
-			console.log('Weapon: ' + key);
-		} else {
-			alert("Undefined key in export: " + key);
-		}
+		currentChar.addElement(arrayFromUniqueInputName(key), value);
 	});
 
 //Weapon: firemode-2-weapons-ak-47
