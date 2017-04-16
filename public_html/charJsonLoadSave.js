@@ -13,7 +13,7 @@ loadSave = {
 
 		pom.onchange = function () {
 			var f = pom.files[0];
-			loadCharFromFile(f, callback);
+			loadSave.loadCharFromFile(f, callback);
 		};
 		pom.click();
 
@@ -41,8 +41,8 @@ loadSave = {
 	 * @returns {undefined} nothing.
 	 */
 	charExport: function (which, name) {
-		var json = getJsonForChar(which);
-		presentDownload(json, name + '.json');
+		var json = loadSave.getJsonForChar(which);
+		loadSave.presentDownload(json, name + '.json');
 	},
 	/**
 	 * converts the Character to a JSON String.

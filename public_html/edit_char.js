@@ -1,6 +1,7 @@
 // this is the Javascript managing the edit_char.html page and shound only be loaded there.
 
 var utilities = utilities || {};
+var loadSave = loadSave || {};
 
 function refresh(char) {
 	refreshValues(char);
@@ -50,7 +51,7 @@ function populateWeaponNode(node, dataArray) {
 	headerH2.innerHTML = "Waffen";
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv");
+		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true);
 		var skillDiv = makeSkillDiv(myDiv, nextWeapon.skill, node.id, nextWeapon.name);
 		var bonusDiv = makeBonusDiv(myDiv, nextWeapon.bonus, node.id, nextWeapon.name);
 		var racDiv = makeElement(myDiv, "div", "racDiv");
@@ -61,14 +62,14 @@ function populateWeaponNode(node, dataArray) {
 	}
 }
 
-function makeGenericInputDiv(parentDiv, value, rowIdentifier, type, label) {
+function makeGenericInputDiv(parentDiv, value, area, name, type, label, position) {
 	var genericDiv = makeElement(parentDiv, "div", type + "Div");
 	if (label !== undefined) {
 		genericDiv.innerHTML = label + ": ";
 	}
 	var genericInput = makeElement(genericDiv, "input", type + "Input, valueInput");
 	genericInput.value = value;
-	genericInput.name = uniqueInputname(type + "-" + rowIdentifier);
+	genericInput.name = uniqueInputname(area, name, type, position);
 }
 
 function makeFiremodesDiv(myDiv, value, nodeId, name) {
@@ -76,40 +77,41 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	var nameDiv = makeElement(firemodesDiv, "div", "firemodeTitleDiv");
 	nameDiv.innerHTML = "Feuerfrequenzen";
 	for (var ii in value)
-		makeGenericInputDiv(firemodesDiv, value[ii], ii + "-" + nodeId + "-" + name, "firemode");
+		makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemode", undefined, ii);
 	return firemodesDiv;
 }
 
 function makeConcealabilityDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "concealability", "kleinstes Versteck");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "concealability", "kleinstes Versteck");
 }
 
 function makeAmmunitionDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "ammunition", "Magazingröße");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "ammunition", "Magazingröße");
 }
 
 function makeRangeDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "range", "Reichweite");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "range", "Reichweite");
 }
 
 function makeBonusDiv(myDiv, value, nodeId, name) {
 	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv");//makeElement(myDiv, "div", "bonusDiv");
 //	makeNameDiv(bonusDiv, "Bonus", "bonusNameDiv");
-	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name);
-	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name);
-	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name);
-	makeBonusInput(bonusDiv, value[3], "Extrem", nodeId, name);
+	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name, 0);
+	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name, 1);
+	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name, 2);
+	makeBonusInput(bonusDiv, value[3], "Extrem", nodeId, name, 3);
 	return bonusDiv;
 }
 
-function makeBonusInput(myDiv, value, distance, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, distance + "-" + nodeId + "-" + name, "distance", distance);
+function makeBonusInput(myDiv, value, distance, nodeId, name, position) {
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "bonus", distance, position);
 }
 
+// this is in weapons area.
 function makeSkillDiv(myDiv, value, nodeId, name) {
 	var skillDiv = makeElement(myDiv, "div", "skillDiv");
 	var skillSelect = makeElement(skillDiv, "select", "skillSelect");
-	skillSelect.name = uniqueInputname("skill-" + nodeId + "-" + name);
+	skillSelect.name = uniqueInputname(nodeId, name, "skill");
 	makeOption(skillSelect, "Boxen", value);
 	makeOption(skillSelect, "Gewehr", value);
 	makeOption(skillSelect, "Pistole", value);
@@ -137,38 +139,54 @@ function populateSkillNode(node, dataArray) {
 			headerH2.innerHTML = currentAttr;
 			currentAttr = currentAttr.toLowerCase();
 		}
-		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv");
+		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true);
 		var valueDiv = makeValueDiv(myDiv, nextSkill.value, node.id, nextSkill.name);
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
 	}
 }
 
-function makeNameDiv(node, name, className) {
+function makeNameDiv(node, name, className, withHiddenInput) {
 	var myDiv = makeElement(node, "div", className);
 	var nameDiv = makeElement(myDiv, "div", "nameDiv");
 	nameDiv.innerHTML = name;
+	if(withHiddenInput) {
+		var type = "name";
+		var hiddenInput = makeElement(nameDiv, "input", type + "Input, hiddenInput");
+		hiddenInput.value = name;
+		hiddenInput.type = "hidden";
+		hiddenInput.name = uniqueInputname(node.id, name, type);
+	}
 	return myDiv;
 }
 
 function makeValueDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "value");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "value");
 }
 
 function makeFactorDiv(myDiv, value, nodeId, name) {
-	return makeGenericInputDiv(myDiv, value, nodeId + "-" + name, "factor", "Faktor");
+	return makeGenericInputDiv(myDiv, value, nodeId, name, "factor", "Faktor");
 }
 
-function uniqueInputname(name) {
-	return name.toLowerCase();
-	// TODO: leerzeichen, sonderzeichen, etc. entfernen.
+var g_uniqueNameSeparator = '~';
+	
+function uniqueInputname(area, name, type, position) {
+	var uniqueInputname = area + g_uniqueNameSeparator + name + g_uniqueNameSeparator + type;
+	if(position !== undefined) {
+		uniqueInputname += g_uniqueNameSeparator + position;
+	}
+	return uniqueInputname.toLowerCase();
+}
+
+function arrayFromUniqueInputName(name) {
+	return name.split(g_uniqueNameSeparator);
 }
 
 // nicht mit populateBaseAttrNode verwechseln. 
 function makeBaseDiv(myDiv, value, nodeId, name) {
 	baseDiv = makeElement(myDiv, "div", "baseDiv");
 	baseSelect = makeElement(baseDiv, "select", "baseSelect");
-	baseSelect.name = uniqueInputname("base-" + nodeId + "-" + name);
+	baseSelect.name = uniqueInputname(nodeId, name, "base");
 	// Attr, Body, Cool, Emp, Int, Luck, Move, Ref, Tech
 	makeOption(baseSelect, "Attr", value);
 	makeOption(baseSelect, "Body", value);
@@ -212,42 +230,9 @@ function makeElement(parentNode, type, className) {
 function exportChar() {
 	var charMap = utilities.serialize(document.getElementById("characterForm"));
 	currentChar = new Char();
-	for (var ii in currentChar.attributes) {
-		var nextAttr = currentChar.attributes[ii];
-		nextAttr.value = charMap.get(uniqueInputname("value-attributes-" + nextAttr.name));
-	}
-
-	for (var ii in currentChar.base) {
-		var nextBase = currentChar.base[ii];
-		nextBase.value = charMap.get(uniqueInputname("value-base-" + nextBase.name));
-	}
-
 	charMap.forEach(function (value, key) {
-		if (key.match('.*-attributes-.*')) {
-			// ignore
-		} else if (key.match('.*-base-.*')) {
-			// ignore
-		} else if (key.match('.*-skills-.*')) {
-			console.log('Skill: ' + key);
-		} else if (key.match('.*-weapon.*')) {
-			console.log('Weapon: ' + key);
-		} else {
-			alert("Undefined key in export: " + key);
-		}
+		currentChar.addElement(arrayFromUniqueInputName(key), value);
 	});
 
-//Weapon: firemode-2-weapons-ak-47
-//Weapon: firemode-1-weapons-ak-47
-//Weapon: firemode-0-weapons-ak-47
-//Weapon: concealability-weapons-ak-47
-//Weapon: ammunition-weapons-ak-47
-//Weapon: range-weapons-ak-47
-//Weapon: distance-extrem-weapons-ak-47
-//Weapon: distance-weit-weapons-ak-47
-//Weapon: distance-medium-weapons-ak-47
-//Weapon: distance-nah-weapons-ak-47
-//Weapon: skill-weapons-ak-47
-//Skill: factor-skills-waffentechnik
-
-	charExport(currentChar, "export");
+	loadSave.charExport(currentChar, "export");
 }
