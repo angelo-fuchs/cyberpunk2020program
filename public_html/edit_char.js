@@ -103,7 +103,7 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	var nameDiv = makeElement(firemodesDiv, "div", "firemodeTitleDiv");
 	nameDiv.innerHTML = "Feuerfrequenzen";
 	for (var ii in value)
-		makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemode", undefined, ii);
+		makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemodes", undefined, ii);
 	return firemodesDiv;
 }
 
