@@ -13,7 +13,9 @@ function newChar() {
 
 function addWeapon() {
 	var name = window.prompt("Name");
-	if(name === undefined || name === "") {
+	if(name === undefined || name === null) {
+		return; // clicked cancel.
+	} else if(name === "") {
 		window.alert("Name darf nicht leer und muss eindeutig sein");
 	} else {
 		var currentChar = makeCharFromForm();
@@ -81,7 +83,7 @@ function populateWeaponNode(node, dataArray) {
 	}
 	var buttonDiv = makeElement(node, "div", "weaponDiv");
 	var addButton = makeElement(buttonDiv, "input", "addButton");
-	addButton.value = "add";
+	addButton.value = "Waffe hinzufügen";
 	addButton.type = "button";
 	addButton.onclick = function() {
 		addWeapon();
