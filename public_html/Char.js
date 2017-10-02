@@ -1,3 +1,4 @@
+var utilities = utilities || {};
 function Char() {
 	this.attributes = [
 		{"name": "Body", "value": 0},
@@ -92,6 +93,8 @@ Char.prototype = {
 				return this.skills;
 			case 'weapons' :
 				return this.weapons;
+			case 'armor' :
+				return this.armor;
 			case 'inventory' :
 				return this.inventory;
 			default:

@@ -13,52 +13,74 @@ function newChar() {
 
 function addWeapon() {
 	var name = window.prompt("Name");
-	if(name === undefined || name === null) {
+	if (name === undefined || name === null) {
 		return; // clicked cancel.
-	} else if(name === "") {
+	} else if (name === "") {
 		window.alert("Name darf nicht leer und muss eindeutig sein");
 	} else {
 		var currentChar = makeCharFromForm();
 		currentChar.weapons.push(
-			{"name": name,
-			"skill": "-",
-			"bonus": [0, 0, 0, 0],
-			"ammunition": 0,
-			"range": 0,
-			"firemodes": [0,0,0],
-			"concealability": "Nicht"
-			});
+						{"name": name,
+							"skill": "-",
+							"bonus": [0, 0, 0, 0],
+							"ammunition": 0,
+							"range": 0,
+							"firemodes": [0, 0, 0],
+							"concealability": "Nicht"
+						});
 		refreshValues(currentChar);
 	}
 }
 
 function addSkill() {
 	var name = window.prompt("Name");
-	if(name === undefined || name === null) {
+	if (name === undefined || name === null) {
 		return; // clicked cancel.
-	} else if(name === "") {
+	} else if (name === "") {
 		window.alert("Name darf nicht leer und muss eindeutig sein");
 	} else {
 		var currentChar = makeCharFromForm();
 		currentChar.skills.push(
-			{
-		"name": name,
-      "value": 0,
-		"base": "Attr",
-		"factor": 1
-		});
+						{
+							"name": name,
+							"value": 0,
+							"base": "Attr",
+							"factor": 1
+						});
+		refreshValues(currentChar);
+	}
+}
+
+
+function addArmor() {
+	var name = window.prompt("Name");
+	if (name === undefined || name === null) {
+		return; // clicked cancel.
+	} else if (name === "") {
+		window.alert("Name darf nicht leer und muss eindeutig sein");
+	} else {
+		var currentChar = makeCharFromForm();
+		currentChar.armor.push(
+						{
+							"name": name,
+							"areas": ["Torso"],
+							"sp": 0,
+							"hard": false,
+							"encumberence": 0
+						});
 		refreshValues(currentChar);
 	}
 }
 
 function refreshChar() {
-		var currentChar = makeCharFromForm();
-		refreshValues(currentChar);
+	var currentChar = makeCharFromForm();
+	refreshValues(currentChar);
 }
 
 function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
+	refreshPart("armor", currentChar.armor);
 	refreshPart("skills", currentChar.skills);
 	refreshPart("weapons", currentChar.weapons);
 	refreshPart("inventory", currentChar.inventory);
@@ -73,7 +95,13 @@ function refreshPart(id, array) {
 		populateSkillNode(elem, array);
 	} else if (id === "weapons") {
 		populateWeaponNode(elem, array);
+	} else if (id === "armor") {
+		populateArmorNode(elem, array);
 	}
+}
+
+function populateArmorNode(node, dataArray) {
+	
 }
 
 function populateWeaponNode(node, dataArray) {
@@ -102,7 +130,7 @@ function populateWeaponNode(node, dataArray) {
 	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
 	addButton.value = "Waffe hinzufügen";
 	addButton.type = "button";
-	addButton.onclick = function() {
+	addButton.onclick = function () {
 		addWeapon();
 	};
 }
@@ -183,7 +211,7 @@ function populateSkillNode(node, dataArray) {
 	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
 	addButton.value = "Fertigkeit hinzufügen";
 	addButton.type = "button";
-	addButton.onclick = function() {
+	addButton.onclick = function () {
 		addSkill();
 	};
 }
@@ -192,12 +220,12 @@ function makeNameDiv(node, name, className, withHiddenInput) {
 	var myDiv = utilities.makeElement(node, "div", className);
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
 	nameDiv.innerHTML = name;
-	if(withHiddenInput) {
-	var type = "name";
+	if (withHiddenInput) {
+		var type = "name";
 		var hiddenInput = utilities.makeElement(nameDiv, "input", type + "Input, hiddenInput");
-	hiddenInput.value = name;
+		hiddenInput.value = name;
 		hiddenInput.type = "hidden";
-	hiddenInput.name = utilities.uniqueInputname(node.id, name, type);
+		hiddenInput.name = utilities.uniqueInputname(node.id, name, type);
 	}
 	return myDiv;
 }
