@@ -15,6 +15,7 @@ function Char() {
 		{"name": "Age", "value": undefined}];
 
 	this.skills = [];
+	this.armor = [];
 	this.weapons = [];
 	this.inventory = [];
 }

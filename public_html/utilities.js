@@ -80,5 +80,55 @@ utilities = {
 		strToSearch = strToSearch.toLowerCase();
 		strTerm = strTerm.toLowerCase();
 		return strToSearch === strTerm;
+	},
+
+	/** removes all children from this node.
+	 * 
+	 * @param {Element} node the node to be cleared
+	 * @returns nothing
+	 */
+	clearNode: function (node) {
+		while (node.childNodes.length > 0) {
+			var nextChild = node.childNodes[0];
+			node.removeChild(nextChild);
+		}
+	},
+
+	/**
+	 * Creates a div that contains a name and an input element.
+	 * @param {Element} parentDiv
+	 * @param {String} value
+	 * @param {type} area
+	 * @param {type} name
+	 * @param {type} type
+	 * @param {type} label
+	 * @param {type} position
+	 * @returns {undefined}
+	 */
+	makeGenericInputDiv: function (parentDiv, value, area, name, type, label, position) {
+		var genericDiv = this.makeElement(parentDiv, "div", type + "Div");
+		if (label !== undefined) {
+			genericDiv.innerHTML = label + ": ";
+		}
+		var genericInput = this.makeElement(genericDiv, "input", type + "Input, valueInput");
+		genericInput.value = value;
+		genericInput.name = this.uniqueInputname(area, name, type, position);
+	},
+	makeElement: function (parentNode, type, className) {
+		var childNode = document.createElement(type);
+		parentNode.appendChild(childNode);
+		childNode.className = className;
+		return childNode;
+	},
+	g_uniqueNameSeparator: '~',
+	uniqueInputname: function (area, name, type, position) {
+		var uniqueInputname = area + this.g_uniqueNameSeparator + name + this.g_uniqueNameSeparator + type;
+		if (position !== undefined) {
+			uniqueInputname += this.g_uniqueNameSeparator + position;
+		}
+		return uniqueInputname.toLowerCase();
+	},
+	arrayFromUniqueInputName: function (name) {
+		return name.split(this.g_uniqueNameSeparator);
 	}
 };
