@@ -80,10 +80,9 @@ function refreshChar() {
 function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
-	refreshPart("armor", currentChar.armor);
-	refreshPart("skills", currentChar.skills);
-	refreshPart("weapons", currentChar.weapons);
-	refreshPart("inventory", currentChar.inventory);
+	populateArmorNode(currentChar);
+	populateSkillNode(currentChar);
+	populateWeaponNode(currentChar);
 }
 
 function refreshPart(id, array) {
@@ -91,20 +90,19 @@ function refreshPart(id, array) {
 	utilities.clearNode(elem);
 	if (id === "base" || id === "attributes") {
 		populateBaseAttrNode(elem, array, id);
-	} else if (id === "skills") {
-		populateSkillNode(elem, array);
-	} else if (id === "weapons") {
-		populateWeaponNode(elem, array);
-	} else if (id === "armor") {
-		populateArmorNode(elem, array);
+	} else {
+		throw "unexpected part " + id;
 	}
 }
 
-function populateArmorNode(node, dataArray) {
-	
+function populateArmorNode(currentChar) {
+	var dataArray = currentChar.armor;
+	var node = document.getElementById("armor");
 }
 
-function populateWeaponNode(node, dataArray) {
+function populateWeaponNode(currentChar) {
+	var dataArray = currentChar.weapons;
+	var node = document.getElementById("weapons");
 	dataArray.sort(function (a, b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
 		if (skillCompare !== 0)
@@ -184,7 +182,9 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 	return skillDiv;
 }
 
-function populateSkillNode(node, dataArray) {
+function populateSkillNode(currentChar) {
+	var dataArray = currentChar.skills;
+	var node = document.getElementById("skills");
 	dataArray.sort(function (a, b) {
 		var baseCompare = a.base.toLowerCase().localeCompare(b.base.toLowerCase());
 		if (baseCompare !== 0)
