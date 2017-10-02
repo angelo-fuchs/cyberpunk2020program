@@ -11,6 +11,25 @@ function newChar() {
 	refreshValues(new Char());
 }
 
+function addWeapon() {
+	var name = window.prompt("Name");
+	if(name === undefined || name === "") {
+		window.alert("Name darf nicht leer und muss eindeutig sein");
+	} else {
+		var currentChar = makeCharFromForm();
+		currentChar.weapons.push(
+			{"name": name,
+			"skill": "-",
+			"bonus": [0, 0, 0, 0],
+			"ammunition": 0,
+			"range": 0,
+			"firemodes": [0,0,0],
+			"concealability": "Nicht"
+			});
+		refreshValues(currentChar);
+	}
+}
+
 function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
@@ -60,6 +79,13 @@ function populateWeaponNode(node, dataArray) {
 		var concealabilityDiv = makeConcealabilityDiv(racDiv, nextWeapon.concealability, node.id, nextWeapon.name);
 		var firemodesDiv = makeFiremodesDiv(myDiv, nextWeapon.firemodes, node.id, nextWeapon.name);
 	}
+	var buttonDiv = makeElement(node, "div", "weaponDiv");
+	var addButton = makeElement(buttonDiv, "input", "addButton");
+	addButton.value = "add";
+	addButton.type = "button";
+	addButton.onclick = function() {
+		addWeapon();
+	};
 }
 
 function makeGenericInputDiv(parentDiv, value, area, name, type, label, position) {
@@ -151,11 +177,11 @@ function makeNameDiv(node, name, className, withHiddenInput) {
 	var nameDiv = makeElement(myDiv, "div", "nameDiv");
 	nameDiv.innerHTML = name;
 	if(withHiddenInput) {
-		var type = "name";
+	var type = "name";
 		var hiddenInput = makeElement(nameDiv, "input", type + "Input, hiddenInput");
-		hiddenInput.value = name;
+	hiddenInput.value = name;
 		hiddenInput.type = "hidden";
-		hiddenInput.name = uniqueInputname(node.id, name, type);
+	hiddenInput.name = uniqueInputname(node.id, name, type);
 	}
 	return myDiv;
 }
@@ -227,12 +253,16 @@ function makeElement(parentNode, type, className) {
 	return childNode;
 }
 
-function exportChar() {
+function makeCharFromForm() {
 	var charMap = utilities.serialize(document.getElementById("characterForm"));
-	currentChar = new Char();
+	var currentChar = new Char();
 	charMap.forEach(function (value, key) {
 		currentChar.addElement(arrayFromUniqueInputName(key), value);
 	});
+	return currentChar;
+}
 
+function exportChar() {
+	var currentChar = makeCharFromForm();
 	loadSave.charExport(currentChar, "export");
 }
