@@ -48,21 +48,21 @@
 	],
 	"armor": [{
 		"name": "Flak Veste",
-		"areas": ["Torso"],
-		"sp": 20,
+		"areas": [0,0,0,0,20,20,20,20,20,0,0,0,0],
 		"hard": false,
+		"layer": 2,
 		"encumberence": 2
 		}, {
 		"name": "Stahl Helm",
-		"areas": ["Head"],
-		"sp": 10,
+		"areas": [10,0,0,0,0,0,0,0,0,0,0,0,0],
 		"hard": true,
+		"layer": 0,
 		"encumberence": 1
 		}, {
 		"name": "Kevlar Jacke",
-		"areas": ["Torso", "Arme"],
-		"sp": 10,
+		"areas": [0,0,10,10,10,10,10,10,0,0,0,0,0],
 		"hard": false,
+		"layer": 1,
 		"encumberence": 0
 		}
 	],

@@ -63,9 +63,9 @@ function addArmor() {
 		currentChar.armor.push(
 						{
 							"name": name,
-							"areas": ["Torso"],
-							"sp": 0,
+		          "areas": [0,0,0,0,0,0,0,0,0,0,0,0,0],
 							"hard": false,
+							"layer": 0,
 							"encumberence": 0
 						});
 		refreshValues(currentChar);
@@ -98,21 +98,75 @@ function refreshPart(id, array) {
 function populateArmorNode(currentChar) {
 	var dataArray = currentChar.armor;
 	var node = document.getElementById("armor");
+	utilities.clearNode(node);
+	dataArray.sort(function (a, b) {
+		var layerCompare = a.layer - b.layer;
+		if (layerCompare !== 0)
+			return layerCompare;
+		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+	});
+	
+	makeHeader(node, "Rüstung");
+	
+	for (var ii in dataArray) {
+		var nextArmor = dataArray[ii];
+		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true);
+		var areasDiv = makeAreasDiv(myDiv, nextArmor.areas, node.id, nextArmor.name);
+		var hleDiv = utilities.makeElement(myDiv, "div", "hleDiv");
+		var hardnessDiv = makeHardnessDiv(hleDiv, nextArmor.hard, node.id, nextArmor.name);
+		var layerDiv = makeLayerDiv(hleDiv, nextArmor.layer, node.id, nextArmor.name);
+		var encumbranceDiv = makeEncumbranceDiv(hleDiv, nextArmor.encumberence, node.id, nextArmor.name);
+	}
+	addAddButton(node, "armor", "Rüstung hinzufügen", function() {
+		addArmor();
+	});
+}
+
+function makeHardnessDiv(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "hard", "Hart");
+}
+
+function makeLayerDiv(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "layer", "Schicht");
+}
+
+function makeEncumbranceDiv(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "encumberence", "Behinderung");
+}
+
+function makeAreasDiv(myDiv, value, nodeId, name) {
+	var areasDiv = makeNameDiv(myDiv, "Gebiete", "areaNameDiv");
+	makeAreaInput(areasDiv, value, "Kopf", nodeId, name, 0);
+	makeAreaInput(areasDiv, value, "Hand", nodeId, name, 1);
+	makeAreaInput(areasDiv, value, "Arm, links", nodeId, name, 2);
+	makeAreaInput(areasDiv, value, "Arm, rechts", nodeId, name, 3);
+	makeAreaInput(areasDiv, value, "Schulter", nodeId, name, 4);
+	makeAreaInput(areasDiv, value, "Brust", nodeId, name, 5);
+	makeAreaInput(areasDiv, value, "Eingeweide", nodeId, name, 6);
+	makeAreaInput(areasDiv, value, "Vitalorgane", nodeId, name, 7);
+	makeAreaInput(areasDiv, value, "Oberschenkel", nodeId, name, 8);
+	makeAreaInput(areasDiv, value, "Bein, links", nodeId, name, 9);
+	makeAreaInput(areasDiv, value, "Bein, rechts", nodeId, name, 10);
+	makeAreaInput(areasDiv, value, "Fuss, links", nodeId, name, 11);
+	makeAreaInput(areasDiv, value, "Fuss, rechts", nodeId, name, 12);
+	return areasDiv;
+}
+
+function makeAreaInput(myDiv, value, distance, nodeId, name, position) {
+	return utilities.makeGenericInputDiv(myDiv, value[position], nodeId, name, "areas", distance, position);
 }
 
 function populateWeaponNode(currentChar) {
 	var dataArray = currentChar.weapons;
 	var node = document.getElementById("weapons");
+	utilities.clearNode(node);
 	dataArray.sort(function (a, b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
 		if (skillCompare !== 0)
 			return skillCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
-
-	var headerDiv = utilities.makeElement(node, "div", "headerDiv");
-	var headerH2 = utilities.makeElement(headerDiv, "h2", "headerH2");
-	headerH2.innerHTML = "Waffen";
+	makeHeader(node, "Waffen");
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true);
@@ -124,13 +178,24 @@ function populateWeaponNode(currentChar) {
 		var concealabilityDiv = makeConcealabilityDiv(racDiv, nextWeapon.concealability, node.id, nextWeapon.name);
 		var firemodesDiv = makeFiremodesDiv(myDiv, nextWeapon.firemodes, node.id, nextWeapon.name);
 	}
-	var buttonDiv = utilities.makeElement(node, "div", "weaponDiv");
-	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
-	addButton.value = "Waffe hinzufügen";
-	addButton.type = "button";
-	addButton.onclick = function () {
+	addAddButton(node, "weapon", "Waffe hinzufügen", function() {
 		addWeapon();
-	};
+	});
+}
+
+function addAddButton(node, type, text, callback) {
+	var buttonDiv = utilities.makeElement(node, "div", type + "Div");
+	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
+	addButton.value = text;
+	addButton.type = "button";
+	addButton.onclick = callback;
+}
+
+function makeHeader(parentNode, name) {
+	var headerDiv = utilities.makeElement(parentNode, "div", "headerDiv");
+	var headerH2 = utilities.makeElement(headerDiv, "h2", "headerH2");
+	headerH2.innerHTML = name;
+	return headerDiv;
 }
 
 function makeFiremodesDiv(myDiv, value, nodeId, name) {
@@ -155,8 +220,7 @@ function makeRangeDiv(myDiv, value, nodeId, name) {
 }
 
 function makeBonusDiv(myDiv, value, nodeId, name) {
-	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv");//makeElement(myDiv, "div", "bonusDiv");
-//	makeNameDiv(bonusDiv, "Bonus", "bonusNameDiv");
+	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv");
 	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name, 0);
 	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name, 1);
 	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name, 2);
@@ -185,6 +249,7 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 function populateSkillNode(currentChar) {
 	var dataArray = currentChar.skills;
 	var node = document.getElementById("skills");
+	utilities.clearNode(node);
 	dataArray.sort(function (a, b) {
 		var baseCompare = a.base.toLowerCase().localeCompare(b.base.toLowerCase());
 		if (baseCompare !== 0)

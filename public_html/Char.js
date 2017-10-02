@@ -30,17 +30,17 @@ Char.prototype = {
 	load: function (jsonString) {
 		var jsonObj = JSON.parse(jsonString);
 		for (var ii in this.base) {
-			myBase = this.base[ii];
+			var myBase = this.base[ii];
 			for (var jj in jsonObj.base) {
-				nextBase = jsonObj.base[jj];
+				var nextBase = jsonObj.base[jj];
 				if (utilities.equalsIgnoreCase(myBase.name, nextBase.name))
 					myBase.value = nextBase.value;
 			}
 		}
 		for (ii in this.attributes) {
-			myAttr = this.attributes[ii];
+			var myAttr = this.attributes[ii];
 			for (var jj in jsonObj.attributes) {
-				nextAttr = jsonObj.attributes[jj];
+				var nextAttr = jsonObj.attributes[jj];
 				if (utilities.equalsIgnoreCase(myAttr.name, nextAttr.name))
 					myAttr.value = nextAttr.value;
 			}
@@ -48,6 +48,7 @@ Char.prototype = {
 		this.skills = jsonObj.skills;
 		this.weapons = jsonObj.weapons;
 		this.inventory = jsonObj.inventory;
+		this.armor = jsonObj.armor;
 	},
 	/**
 	 * adds an element to the Character
