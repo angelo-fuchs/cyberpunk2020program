@@ -32,6 +32,30 @@ function addWeapon() {
 	}
 }
 
+function addSkill() {
+	var name = window.prompt("Name");
+	if(name === undefined || name === null) {
+		return; // clicked cancel.
+	} else if(name === "") {
+		window.alert("Name darf nicht leer und muss eindeutig sein");
+	} else {
+		var currentChar = makeCharFromForm();
+		currentChar.skills.push(
+			{
+		"name": name,
+      "value": 0,
+		"base": "Attr",
+		"factor": 1
+		});
+		refreshValues(currentChar);
+	}
+}
+
+function refreshChar() {
+		var currentChar = makeCharFromForm();
+		refreshValues(currentChar);
+}
+
 function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
@@ -172,6 +196,13 @@ function populateSkillNode(node, dataArray) {
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
 	}
+	var buttonDiv = makeElement(node, "div", "skillDiv");
+	var addButton = makeElement(buttonDiv, "input", "addButton");
+	addButton.value = "Fertigkeit hinzufügen";
+	addButton.type = "button";
+	addButton.onclick = function() {
+		addSkill();
+	};
 }
 
 function makeNameDiv(node, name, className, withHiddenInput) {
