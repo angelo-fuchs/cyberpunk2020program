@@ -47,7 +47,7 @@
 		}
 	],
 	"armor": [{
-		"name": "Flak Veste",
+		"name": "Flak Weste",
 		"areas": [0,0,0,0,20,20,20,20,20,0,0,0,0],
 		"hard": false,
 		"layer": 2,
