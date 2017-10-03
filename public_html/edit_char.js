@@ -52,6 +52,26 @@ function addSkill() {
 }
 
 
+function addItem() {
+	var name = window.prompt("Name");
+	if (name === undefined || name === null) {
+		return; // clicked cancel.
+	} else if (name === "") {
+		window.alert("Name darf nicht leer und muss eindeutig sein");
+	} else {
+		var currentChar = makeCharFromForm();
+		currentChar.inventory.push(
+						{
+							"name": name,
+							"weight": 0,
+							"amount": 0,
+							"cost": 0,
+							"location": ""
+						});
+		refreshValues(currentChar);
+	}
+}
+
 function addArmor() {
 	var name = window.prompt("Name");
 	if (name === undefined || name === null) {
@@ -112,6 +132,10 @@ function populateInventoryNode(currentChar) {
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
 	}
+	
+	addAddButton(node, "item", "Gegenstand hinzufügen", function() {
+		addItem();
+	});
 }
 
 function makeWeightDiv(myDiv, value, nodeId, name) {
