@@ -123,7 +123,7 @@ function populateArmorNode(currentChar) {
 }
 
 function makeHardnessDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "hard", "Hart");
+	return utilities.makeCheckboxDiv(myDiv, value, nodeId, name, "hard", "Hart");
 }
 
 function makeLayerDiv(myDiv, value, nodeId, name) {
