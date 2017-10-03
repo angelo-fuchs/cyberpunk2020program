@@ -67,8 +67,15 @@
 		}
 	],
 	"inventory": [
-		{"name": "Backpack",
+		{"name": "Rucksack",
 		"weight": 1.5,
-		"amount": 1}
+		"amount": 1,
+		"cost": 5,
+		"location": "Dabei"},
+		{"name": "Scharfschützengewehr",
+		"weight": 9.5,
+		"amount": 1,
+		"cost": 7500,
+		"location": "In Wohnung"}
 	]		
 }
