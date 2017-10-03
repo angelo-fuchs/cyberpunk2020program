@@ -135,20 +135,25 @@ function makeEncumbranceDiv(myDiv, value, nodeId, name) {
 }
 
 function makeAreasDiv(myDiv, value, nodeId, name) {
-	var areasDiv = makeNameDiv(myDiv, "Gebiete", "areaNameDiv");
-	makeAreaInput(areasDiv, value, "Kopf", nodeId, name, 0);
-	makeAreaInput(areasDiv, value, "Hand", nodeId, name, 1);
-	makeAreaInput(areasDiv, value, "Arm, links", nodeId, name, 2);
-	makeAreaInput(areasDiv, value, "Arm, rechts", nodeId, name, 3);
-	makeAreaInput(areasDiv, value, "Schulter", nodeId, name, 4);
-	makeAreaInput(areasDiv, value, "Brust", nodeId, name, 5);
-	makeAreaInput(areasDiv, value, "Eingeweide", nodeId, name, 6);
-	makeAreaInput(areasDiv, value, "Vitalorgane", nodeId, name, 7);
-	makeAreaInput(areasDiv, value, "Oberschenkel", nodeId, name, 8);
-	makeAreaInput(areasDiv, value, "Bein, links", nodeId, name, 9);
-	makeAreaInput(areasDiv, value, "Bein, rechts", nodeId, name, 10);
-	makeAreaInput(areasDiv, value, "Fuss, links", nodeId, name, 11);
-	makeAreaInput(areasDiv, value, "Fuss, rechts", nodeId, name, 12);
+//	var areasDiv = makeNameDiv(myDiv, "Gebiete", "areaNameDiv");
+	var areasDiv = utilities.makeElement(myDiv, "div", "areaNameDiv");
+	var sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
+	makeAreaInput(sectionDiv, value, "Kopf", nodeId, name, 0);
+	makeAreaInput(sectionDiv, value, "Hand", nodeId, name, 1);
+	makeAreaInput(sectionDiv, value, "Arm, links", nodeId, name, 2);
+	sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
+	makeAreaInput(sectionDiv, value, "Arm, rechts", nodeId, name, 3);
+	makeAreaInput(sectionDiv, value, "Schulter", nodeId, name, 4);
+	makeAreaInput(sectionDiv, value, "Brust", nodeId, name, 5);
+	sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
+	makeAreaInput(sectionDiv, value, "Eingeweide", nodeId, name, 6);
+	makeAreaInput(sectionDiv, value, "Vitalorgane", nodeId, name, 7);
+	makeAreaInput(sectionDiv, value, "Oberschenkel", nodeId, name, 8);
+	sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
+	makeAreaInput(sectionDiv, value, "Bein, links", nodeId, name, 9);
+	makeAreaInput(sectionDiv, value, "Bein, rechts", nodeId, name, 10);
+	makeAreaInput(sectionDiv, value, "Fuss, links", nodeId, name, 11);
+	makeAreaInput(sectionDiv, value, "Fuss, rechts", nodeId, name, 12);
 	return areasDiv;
 }
 

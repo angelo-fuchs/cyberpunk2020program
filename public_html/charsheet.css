@@ -93,3 +93,27 @@ h2 {
 #inventory {
 	clear: both;
 }
+#armor {
+	clear: both;
+}
+.armorDiv {
+	clear: both;
+	border-top: 1px solid gray;
+}
+.armorDiv .nameDiv {
+	font-weight: bold;
+	clear: both;
+}
+.armorDiv div {
+	float: left;
+	padding-right: 5px;
+}
+.armorDiv .sectionDiv .areasDiv {
+	clear: left;
+	text-align: right;
+	width: 100%;
+}
+.armorDiv .hleDiv div {
+	float: none;
+	text-align: right;
+}
