@@ -12,8 +12,16 @@ function Char() {
 		{"name": "Move", "value": 0}
 	];
 
-	this.base = [{"name": "Handle", "value": undefined},
-		{"name": "Age", "value": undefined}];
+	this.base = [
+		{"name": "Handle", "value": "John Doe"},
+		{"name": "Alter", "value": "120 Zyklen"},
+		{"name": "Spieler", "value": "Jehova"},
+		{"name": "Geschlecht", "value": "Herm"},
+		{"name": "Größe", "value": "0,0001 pc"},
+		{"name": "Gewicht", "value": "120 Scheffel"},
+		{"name": "Haar", "value": "Nur an den Füßen"},
+		{"name": "Augen", "value": "Gelegentlich"},
+		{"name": "Stil", "value": "Lang und Hart"}];
 
 	this.skills = [];
 	this.armor = [];
