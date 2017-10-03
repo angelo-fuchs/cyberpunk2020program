@@ -1,7 +1,7 @@
 {
 	"base": [
 		{"name": "Handle", "value": "Beispiel"},
-		{"name": "Age", "value": 25}],
+		{"name": "Alter", "value": 25}],
 	"attributes": [
 		{"name": "Ref",
 		"value": 9},
