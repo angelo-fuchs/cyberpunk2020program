@@ -27,6 +27,7 @@ function Char() {
 	this.armor = [];
 	this.weapons = [];
 	this.inventory = [];
+	this.cyberware = [];
 }
 
 Char.prototype = {
@@ -57,6 +58,7 @@ Char.prototype = {
 		this.weapons = jsonObj.weapons;
 		this.inventory = jsonObj.inventory;
 		this.armor = jsonObj.armor;
+		this.cyberware = jsonObj.armor;
 	},
 	/**
 	 * adds an element to the Character

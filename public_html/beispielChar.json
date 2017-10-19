@@ -77,5 +77,15 @@
 		"amount": 1,
 		"cost": 7500,
 		"location": "In Wohnung"}
-	]		
+	],
+	"cyberware": [
+		{"name": "Basic Neuro",
+			"cost": "1000",
+			"hc": "5",
+			"location": "Hirn"}, 
+		{"name": "Cyberauge",
+			"cost": "3000",
+			"hc": "5",
+			"location": "links"}
+	]
 }

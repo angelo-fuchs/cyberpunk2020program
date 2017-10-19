@@ -92,6 +92,25 @@ function addArmor() {
 	}
 }
 
+function addCyberitem() {
+	var name = window.prompt("Name");
+	if (name === undefined || name === null) {
+		return; // clicked cancel.
+	} else if (name === "") {
+		window.alert("Name darf nicht leer und muss eindeutig sein");
+	} else {
+		var currentChar = makeCharFromForm();
+		currentChar.cyberware.push(
+						{
+							"name": name,
+							"cost": "0",
+							"hc": "0",
+							"location": "Keine"
+						});
+		refreshValues(currentChar);
+	}
+}
+
 function refreshChar() {
 	var currentChar = makeCharFromForm();
 	refreshValues(currentChar);
@@ -104,6 +123,7 @@ function refreshValues(currentChar) {
 	populateSkillNode(currentChar);
 	populateWeaponNode(currentChar);
 	populateInventoryNode(currentChar);
+	populateCyberwareNode(currentChar);
 }
 
 function refreshPart(id, array) {
@@ -114,6 +134,26 @@ function refreshPart(id, array) {
 	} else {
 		throw "unexpected part " + id;
 	}
+}
+
+function populateCyberwareNode(currentChar) {
+	var dataArray = currentChar.cyberware;
+	var node = document.getElementById("cyberware");
+	utilities.clearNode(node);
+	dataArray.sort(function (a, b) {
+		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+	});
+	makeHeader(node, "Cyberware");
+	for (var ii in dataArray) {
+		var nextItem = dataArray[ii];
+		var myDiv = makeNameDiv(node, nextItem.name, "cyberitemDiv", true);
+		var humanitycostDiv = makeHumanityCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
+		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
+		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
+	}
+	addAddButton(node, "cyberitem", "Cyberware hinzufügen", function() {
+		addCyberitem();
+	});
 }
 
 function populateInventoryNode(currentChar) {
@@ -142,6 +182,11 @@ function makeWeightDiv(myDiv, value, nodeId, name) {
 	var weightDiv = utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "weight", "Gewicht");
 	weightDiv.appendChild(document.createTextNode(" kg"));
 	return weightDiv;
+}
+
+function makeHumanityCostDiv(myDiv, value, nodeId, name) {
+	var costDiv = utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "humanitycost", "Menschlichkeit");
+	return costDiv;
 }
 
 function makeCostDiv(myDiv, value, nodeId, name) {
