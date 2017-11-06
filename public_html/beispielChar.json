@@ -2,6 +2,7 @@
 	"base": [
 		{"name": "Handle", "value": "Beispiel"},
 		{"name": "Alter", "value": 25}],
+	"hits":  [{"name": "R-Arm", "value": "5"}],
 	"attributes": [
 		{"name": "Ref",
 		"value": 9},

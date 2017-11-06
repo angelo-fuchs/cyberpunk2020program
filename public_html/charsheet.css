@@ -39,6 +39,15 @@ h2 {
 #attributes {
 	clear: both;
 }
+#hits {
+	clear: both;
+}
+#hits div {
+	float: left;
+}
+#hits div div {
+	float: none;
+}
 .headerDiv {
 	clear: both;
 }

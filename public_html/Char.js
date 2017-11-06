@@ -21,9 +21,26 @@ function Char() {
 		{"name": "Gewicht", "value": "120 Scheffel"},
 		{"name": "Haar", "value": "Nur an den Füßen"},
 		{"name": "Augen", "value": "Gelegentlich"},
+		{"name": "Ruf", "value": "0"},
+		{"name": "Offene CP", "value": "0"},
 		{"name": "Stil", "value": "Lang und Hart"}];
 
 	this.skills = [];
+	this.hits = [
+		{"name": "Kopf", "value": "0"},
+		{"name": "Hand", "value": "0"},
+		{"name": "L-Arm", "value": "0"},
+		{"name": "R-Arm", "value": "0"},
+		{"name": "Schultern", "value": "0"},
+		{"name": "Brust", "value": "0"},
+		{"name": "Bauch", "value": "0"},
+		{"name": "Eingeweide", "value": "0"},
+		{"name": "Oberschenkel", "value": "0"},
+		{"name": "L-Bein", "value": "0"},
+		{"name": "R-Bein", "value": "0"},
+		{"name": "L-Fuss", "value": "0"},
+		{"name": "R-Fuss", "value": "0"},
+	];
 	this.armor = [];
 	this.weapons = [];
 	this.inventory = [];
@@ -52,6 +69,14 @@ Char.prototype = {
 				var nextAttr = jsonObj.attributes[jj];
 				if (utilities.equalsIgnoreCase(myAttr.name, nextAttr.name))
 					myAttr.value = nextAttr.value;
+			}
+		}
+		for (ii in this.hits) {
+			var myHit = this.hits[ii];
+			for (var jj in jsonObj.hits) {
+				var nextHit = jsonObj.hits[jj];
+				if (utilities.equalsIgnoreCase(myHit.name, nextHit.name))
+					myHit.value = nextHit.value;
 			}
 		}
 		this.skills = jsonObj.skills;
@@ -100,6 +125,8 @@ Char.prototype = {
 				return this.attributes;
 			case 'base' :
 				return this.base;
+			case 'hits' :
+				return this.hits;
 			case 'skills' :
 				return this.skills;
 			case 'weapons' :

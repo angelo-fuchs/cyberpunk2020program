@@ -119,6 +119,7 @@ function refreshChar() {
 function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
+	refreshPart("hits", currentChar.hits);
 	populateArmorNode(currentChar);
 	populateSkillNode(currentChar);
 	populateWeaponNode(currentChar);
@@ -129,7 +130,7 @@ function refreshValues(currentChar) {
 function refreshPart(id, array) {
 	var elem = document.getElementById(id);
 	utilities.clearNode(elem);
-	if (id === "base" || id === "attributes") {
+	if (id === "base" || id === "attributes" || id === "hits") {
 		populateBaseAttrNode(elem, array, id);
 	} else {
 		throw "unexpected part " + id;
@@ -250,8 +251,8 @@ function makeAreasDiv(myDiv, value, nodeId, name) {
 	makeAreaInput(sectionDiv, value, "Schulter", nodeId, name, 4);
 	makeAreaInput(sectionDiv, value, "Brust", nodeId, name, 5);
 	sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
-	makeAreaInput(sectionDiv, value, "Eingeweide", nodeId, name, 6);
-	makeAreaInput(sectionDiv, value, "Vitalorgane", nodeId, name, 7);
+	makeAreaInput(sectionDiv, value, "Bauch", nodeId, name, 6);
+	makeAreaInput(sectionDiv, value, "Eingeweide", nodeId, name, 7);
 	makeAreaInput(sectionDiv, value, "Oberschenkel", nodeId, name, 8);
 	sectionDiv = utilities.makeElement(areasDiv, "div", "sectionDiv");
 	makeAreaInput(sectionDiv, value, "Bein, links", nodeId, name, 9);
