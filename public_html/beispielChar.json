@@ -13,7 +13,7 @@
 	"skills": [
 		{
 		"name": "Gewehr",
-      "value": 5,
+		"value": 5,
 		"base": "Ref",
 		"factor": 1
 		},{

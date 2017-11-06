@@ -393,7 +393,7 @@ function populateSkillNode(currentChar) {
 function makeNameDiv(node, name, className, withHiddenInput) {
 	var myDiv = utilities.makeElement(node, "div", className);
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
-	nameDiv.innerHTML = name;
+	nameDiv.innerHTML = "<b>" + name + "</b>";
 	if (withHiddenInput) {
 		var type = "name";
 		var hiddenInput = utilities.makeElement(nameDiv, "input", type + "Input, hiddenInput");
