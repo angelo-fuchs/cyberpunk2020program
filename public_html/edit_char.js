@@ -25,6 +25,8 @@ function addWeapon() {
 							"bonus": [0, 0, 0, 0],
 							"ammunition": 0,
 							"range": 0,
+							"reliability": "Normal",
+							"damage": "1d6",
 							"firemodes": [0, 0, 0],
 							"concealability": "Nicht"
 						});
@@ -293,6 +295,8 @@ function populateWeaponNode(currentChar) {
 		var ammunitionDiv = makeAmmunitionDiv(racDiv, nextWeapon.ammunition, node.id, nextWeapon.name);
 		var concealabilityDiv = makeConcealabilityDiv(racDiv, nextWeapon.concealability, node.id, nextWeapon.name);
 		var firemodesDiv = makeFiremodesDiv(myDiv, nextWeapon.firemodes, node.id, nextWeapon.name);
+		var reliabilityDiv = makeReliabilityDiv(racDiv, nextWeapon.reliability, node.id, nextWeapon.name);
+		var damageDiv = makeDamageDiv(racDiv, nextWeapon.damage, node.id, nextWeapon.name);
 	}
 	addAddButton(node, "weapon", "Waffe hinzufügen", function() {
 		addWeapon();
@@ -321,6 +325,14 @@ function makeFiremodesDiv(myDiv, value, nodeId, name) {
 	for (var ii in value)
 		utilities.makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemodes", undefined, ii);
 	return firemodesDiv;
+}
+
+function makeReliabilityDiv(parentDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(parentDiv, value, nodeId, name, "reliability", "Zuverl&auml;ssigkeit");
+}
+
+function makeDamageDiv(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "damage", "Schaden");
 }
 
 function makeConcealabilityDiv(myDiv, value, nodeId, name) {

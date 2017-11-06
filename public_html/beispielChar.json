@@ -36,7 +36,9 @@
 		"ammunition": 30,
 		"range": 400,
 		"firemodes": [1, 10, 30],
-		"concealability": "Nicht"
+		"concealability": "Nicht",
+		"reliability": "Sehr",
+		"damage": "4d6"
 		},
 		{"name": "Grach",
 		"skill": "Pistole",
@@ -44,7 +46,9 @@
 		"ammunition": 12,
 		"range": 50,
 		"firemodes": [1],
-		"concealability": "Tasche"
+		"concealability": "Tasche",
+		"reliability": "Normal",
+		"damage": "2d6+1"
 		}
 	],
 	"armor": [{
