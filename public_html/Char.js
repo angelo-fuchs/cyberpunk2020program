@@ -58,7 +58,7 @@ Char.prototype = {
 		this.weapons = jsonObj.weapons;
 		this.inventory = jsonObj.inventory;
 		this.armor = jsonObj.armor;
-		this.cyberware = jsonObj.armor;
+		this.cyberware = jsonObj.cyberware;
 	},
 	/**
 	 * adds an element to the Character
@@ -108,6 +108,8 @@ Char.prototype = {
 				return this.armor;
 			case 'inventory' :
 				return this.inventory;
+			case 'cyberware' :
+				return this.cyberware;
 			default:
 				throw 'unexpected base array entry: ' + name;
 		}
