@@ -170,6 +170,7 @@ function populateInventoryNode(currentChar) {
 		var nextItem = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextItem.name, "itemDiv", true);
 		var weightDiv = makeWeightDiv(myDiv, nextItem.weight, node.id, nextItem.name);
+		var amountDiv = makeAmountDiv(myDiv, nextItem.amount, node.id, nextItem.name);
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
 	}
@@ -181,7 +182,7 @@ function populateInventoryNode(currentChar) {
 
 function makeWeightDiv(myDiv, value, nodeId, name) {
 	var weightDiv = utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "weight", "Gewicht");
-	weightDiv.appendChild(document.createTextNode(" kg"));
+	weightDiv.appendChild(document.createTextNode(" kg pro Stück"));
 	return weightDiv;
 }
 
@@ -194,6 +195,11 @@ function makeCostDiv(myDiv, value, nodeId, name) {
 	var costDiv = utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "cost", "Kosten");
 	costDiv.appendChild(document.createTextNode(" eb"));
 	return costDiv;
+}
+
+function makeAmountDiv(myDiv, value, nodeId, name) {
+	var amountDiv = utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "amount", "Anzahl");
+	return amountDiv;
 }
 
 function makeLocationDiv(myDiv, value, nodeId, name) {
