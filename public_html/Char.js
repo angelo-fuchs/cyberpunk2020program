@@ -45,6 +45,7 @@ function Char() {
 	this.weapons = [];
 	this.inventory = [];
 	this.cyberware = [];
+	this.notes = [];
 }
 
 Char.prototype = {
@@ -79,11 +80,18 @@ Char.prototype = {
 					myHit.value = nextHit.value;
 			}
 		}
-		this.skills = jsonObj.skills;
-		this.weapons = jsonObj.weapons;
-		this.inventory = jsonObj.inventory;
-		this.armor = jsonObj.armor;
-		this.cyberware = jsonObj.cyberware;
+		if(jsonObj.skills !== undefined)
+			this.skills = jsonObj.skills;
+		if(jsonObj.weapons !== undefined)
+			this.weapons = jsonObj.weapons;
+		if(jsonObj.inventory !== undefined)
+			this.inventory = jsonObj.inventory;
+		if(jsonObj.armor !== undefined)
+			this.armor = jsonObj.armor;
+		if(jsonObj.cyberware !== undefined)
+			this.cyberware = jsonObj.cyberware;
+		if(jsonObj.notes !== undefined)
+			this.notes = jsonObj.notes;
 	},
 	/**
 	 * adds an element to the Character
@@ -135,6 +143,8 @@ Char.prototype = {
 				return this.armor;
 			case 'inventory' :
 				return this.inventory;
+			case 'notes' :
+				return this.notes;
 			case 'cyberware' :
 				return this.cyberware;
 			default:

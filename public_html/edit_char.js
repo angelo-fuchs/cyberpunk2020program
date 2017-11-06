@@ -113,6 +113,13 @@ function addCyberitem() {
 	}
 }
 
+function addNote() {
+	var currentChar = makeCharFromForm();
+	var nextOrder = currentChar.notes.length +1;
+	currentChar.notes.push( { "order": nextOrder, "value": "" } );
+	refreshValues(currentChar);
+}
+
 function refreshChar() {
 	var currentChar = makeCharFromForm();
 	refreshValues(currentChar);
@@ -127,6 +134,7 @@ function refreshValues(currentChar) {
 	populateWeaponNode(currentChar);
 	populateInventoryNode(currentChar);
 	populateCyberwareNode(currentChar);
+	populateNotesNode(currentChar);
 }
 
 function refreshPart(id, array) {
@@ -137,6 +145,30 @@ function refreshPart(id, array) {
 	} else {
 		throw "unexpected part " + id;
 	}
+}
+
+function populateNotesNode(currentChar) {
+	var dataArray = currentChar.notes;
+	var node = document.getElementById("notes");
+	utilities.clearNode(node);
+	dataArray.sort(function (a, b) {
+		var result = a.order - b.order;
+		if (result === 0 || result === undefined) {
+			return a.value.toLowerCase().localeCompare(b.value.toLowerCase());
+		} else {
+			return result;	
+		}
+	});
+	makeHeader(node, "Notizen");
+	for (var ii in dataArray) {
+		var nextItem = dataArray[ii];
+		var myDiv = utilities.makeLabeledDiv(node, "notes");
+		var orderDiv = utilities.makeGenericInputDiv(myDiv, nextItem.order, node.id, ii, "order", "Reihenfolge");
+		var orderDiv = utilities.makeTextAreaDiv(myDiv, nextItem.value, node.id, ii, "value", "Notiz");
+	}
+	addAddButton(node, "note", "Notiz hinzufügen", function() {
+		addNote();
+	});
 }
 
 function populateCyberwareNode(currentChar) {

@@ -92,5 +92,6 @@
 			"cost": "3000",
 			"hc": "5",
 			"location": "links"}
-	]
+	],
+	"notes": [{"order": 1, "value": "Notiert"}];
 }

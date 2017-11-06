@@ -95,6 +95,23 @@ utilities = {
 	},
 
 	/**
+	 * Creates a div that contains a name and a text area.
+	 * @param {Element} parentDiv the container for the new div
+	 * @param {String} value the value that should be displayed
+	 * @param {String} area section of the object (e.G. weapons for a character)
+	 * @param {String} name the name of the input in its area (e.G. ak-47 for a weapon in a character)
+	 * @param {String} type The aspect of the element (e.G. ammunition for the ak-47)
+	 * @param {String} label The text that should accompany the input
+	 * @returns {Element} the newly created div
+	 */
+	makeTextAreaDiv: function (parentDiv, value, area, name, type, label, position) {
+		var genericDiv = this.makeLabeledDiv(parentDiv, type, label);
+		var genericInput = this.makeElement(genericDiv, "textarea", type + "Input, valueInput");
+		genericInput.value = value;
+		genericInput.name = this.uniqueInputname(area, name, type);
+		return genericDiv;
+	},
+	/**
 	 * Creates a div that contains a name and an input element.
 	 * @param {Element} parentDiv the container for the new div
 	 * @param {String} value the value that should be displayed
