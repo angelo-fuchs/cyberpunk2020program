@@ -182,7 +182,7 @@ function populateCyberwareNode(currentChar) {
 	for (var ii in dataArray) {
 		var nextItem = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextItem.name, "cyberitemDiv", true, false);
-		var humanitycostDiv = makeHumanityCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
+		var humanitycostDiv = makeHumanityCostDiv(myDiv, nextItem.humanitycost, node.id, nextItem.name);
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
 	}
