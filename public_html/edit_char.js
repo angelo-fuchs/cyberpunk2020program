@@ -181,7 +181,7 @@ function populateCyberwareNode(currentChar) {
 	makeHeader(node, "Cyberware");
 	for (var ii in dataArray) {
 		var nextItem = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextItem.name, "cyberitemDiv", true);
+		var myDiv = makeNameDiv(node, nextItem.name, "cyberitemDiv", true, false);
 		var humanitycostDiv = makeHumanityCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
@@ -202,7 +202,7 @@ function populateInventoryNode(currentChar) {
 	
 	for (var ii in dataArray) {
 		var nextItem = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextItem.name, "itemDiv", true);
+		var myDiv = makeNameDiv(node, nextItem.name, "itemDiv", true, false);
 		var weightDiv = makeWeightDiv(myDiv, nextItem.weight, node.id, nextItem.name);
 		var amountDiv = makeAmountDiv(myDiv, nextItem.amount, node.id, nextItem.name);
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
@@ -255,7 +255,7 @@ function populateArmorNode(currentChar) {
 	
 	for (var ii in dataArray) {
 		var nextArmor = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true);
+		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true, false);
 		var areasDiv = makeAreasDiv(myDiv, nextArmor.areas, node.id, nextArmor.name);
 		var hleDiv = utilities.makeElement(myDiv, "div", "hleDiv");
 		var hardnessDiv = makeHardnessDiv(hleDiv, nextArmor.hard, node.id, nextArmor.name);
@@ -319,7 +319,7 @@ function populateWeaponNode(currentChar) {
 	makeHeader(node, "Waffen");
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true);
+		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true, false);
 		var skillDiv = makeSkillDiv(myDiv, nextWeapon.skill, node.id, nextWeapon.name);
 		var bonusDiv = makeBonusDiv(myDiv, nextWeapon.bonus, node.id, nextWeapon.name);
 		var racDiv = utilities.makeElement(myDiv, "div", "racDiv");
@@ -380,7 +380,7 @@ function makeRangeDiv(myDiv, value, nodeId, name) {
 }
 
 function makeBonusDiv(myDiv, value, nodeId, name) {
-	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv");
+	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv", false);
 	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name, 0);
 	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name, 1);
 	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name, 2);
@@ -427,7 +427,7 @@ function populateSkillNode(currentChar) {
 			headerH2.innerHTML = currentAttr;
 			currentAttr = currentAttr.toLowerCase();
 		}
-		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true);
+		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true, false);
 		var valueDiv = makeValueDiv(myDiv, nextSkill.value, node.id, nextSkill.name);
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
@@ -441,16 +441,21 @@ function populateSkillNode(currentChar) {
 	};
 }
 
-function makeNameDiv(node, name, className, withHiddenInput) {
+function makeNameDiv(node, name, className, withInput, hideInput) {
 	var myDiv = utilities.makeElement(node, "div", className);
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
-	nameDiv.innerHTML = "<b>" + name + "</b>";
-	if (withHiddenInput) {
+	if (withInput === true) {
 		var type = "name";
-		var hiddenInput = utilities.makeElement(nameDiv, "input", type + "Input, hiddenInput");
-		hiddenInput.value = name;
-		hiddenInput.type = "hidden";
-		hiddenInput.name = utilities.uniqueInputname(node.id, name, type);
+		var input = utilities.makeElement(nameDiv, "input", type + "Input");
+		if (hideInput === true) {
+			input.type = "hidden";
+		} else {
+			input.type = "text";
+		}
+		input.value = name;
+		input.name = utilities.uniqueInputname(node.id, name, type);
+	} else {
+		nameDiv.innerHTML = name;
 	}
 	return myDiv;
 }
@@ -496,7 +501,7 @@ function populateBaseAttrNode(node, dataArray, id) {
 	});
 	for (var ii in dataArray) {
 		nextData = dataArray[ii];
-		myDiv = makeNameDiv(node, nextData.name, id + "Div");
+		myDiv = makeNameDiv(node, nextData.name, id + "Div", false);
 		makeValueDiv(myDiv, nextData.value, node.id, nextData.name);
 	}
 }
