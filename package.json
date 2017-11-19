@@ -1,8 +1,32 @@
 {
-	"name": "cyberpunk2020program",
-	"version": "1.0.0",
-	"keywords": ["util", "functional", "server", "client", "browser"],
-	"author": "mor",
-	"contributors": [],
-	"dependencies": {}
+  "private": true,
+  "name": "Cyberpunk2020",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
+    "build": "preact build",
+    "serve": "preact build && preact serve",
+    "dev": "preact watch",
+    "lint": "standard"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "build/*",
+      "public_html/*"
+    ]
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "if-env": "^1.0.0",
+    "preact-cli": "^2.0.0",
+    "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "preact": "^8.2.1",
+    "preact-compat": "^3.17.0",
+    "preact-material-components": "^1.2.4",
+    "preact-router": "^2.5.5"
+  }
 }
