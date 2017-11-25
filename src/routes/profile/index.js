@@ -2,7 +2,6 @@
 
 import { h, Component } from 'preact'
 import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
 import style from './style'
 
 export default class Profile extends Component {

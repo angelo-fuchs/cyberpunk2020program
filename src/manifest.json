@@ -1,6 +1,6 @@
 {
-  "name": ".",
-  "short_name": ".",
+  "name": "Cyberpunk 2020",
+  "short_name": "cyber",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
