@@ -19,16 +19,68 @@ h2 {
 .valueInput {
 	width: 50px;
 }
-
+#basediv-handle-outerdiv {
+	order: 1;
+}
+#basediv-role-outerdiv {
+	order: 2;
+}
+#basediv-spieler-outerdiv {
+	order: 3;
+}
+#basediv-geschlecht-outerdiv {
+	order: 4;
+}
+#basediv-größe-outerdiv {
+	order: 5;
+}
+#basediv-alter-outerdiv {
+	order: 6;
+}
+#basediv-gewicht-outerdiv {
+	order: 7;
+}
+#basediv-haar-outerdiv {
+	order: 8;
+}
+#basediv-augen-outerdiv {
+	order: 9;
+}
+#basediv-stil-outerdiv {
+	order: 10;
+}
+#basediv-offenecp-outerdiv {
+	order: 11;
+}
+#basediv-ruf-outerdiv {
+	order: 12;
+}
 #base div {
+	width: 300px;
 	float: left;
 }
-
+#base div.nameDiv{
+	clear: left;
+}
+#base div div {
+	width: 103px;
+}
 #base {
 	clear: both;
+	display: flex;
+	width: 240px;
+	padding: 2px;
+	height: 275px;
+	border: 1px solid gray;
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	flex-wrap: wrap;
+	flex-direction: column;
 }
 #base div div input {
-	width: 150px;
+	font-size: 10px;
+	width: 120px;
 }
 #attributes div {
 	float: left;

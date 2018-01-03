@@ -185,6 +185,21 @@ utilities = {
 	 * This separator must be constant during a run. It is required for the frontend fields.
 	 */
 	g_uniqueNameSeparator: '~',
+	g_uniqueCssNameSeparator: '-',
+	/**
+	 * Create a unique string from the given parameters.
+	 * This function uses a simple char (-) as separator.
+	 * That is unusuable for the input fields, but well suited for CSS ids.
+	 * Actually its only unique if the combination of parameters is.
+	 * @param {String} area section of the object (e.G. weapons for a character)
+	 * @param {String} name the name of the input in its area (e.G. ak-47 for a weapon in a character)
+	 * @param {String} type The aspect of the element (e.G. ammunition for the ak-47)
+	 * @param {String} position the position inside the array, optional
+	 * @returns {String} a concatenation of the parameters with the uniqueNameSeparator.
+	 */
+	uniqueCssName: function (area, name, type, position) {
+		return this.uniqueName(area, name, type, position, this.g_uniqueCssNameSeparator);
+	},
 	/**
 	 * Create a unique string from the given parameters.
 	 * Actually its only unique if the combination of parameters is.
@@ -195,10 +210,14 @@ utilities = {
 	 * @returns {String} a concatenation of the parameters with the uniqueNameSeparator.
 	 */
 	uniqueInputname: function (area, name, type, position) {
-		var uniqueInputname = area + this.g_uniqueNameSeparator + name + this.g_uniqueNameSeparator + type;
+		return this.uniqueName(area, name, type, position, this.g_uniqueNameSeparator);
+	},
+	uniqueName: function (area, name, type, position, separator) {
+		var uniqueInputname = area + separator + name + separator + type;
 		if (position !== undefined) {
-			uniqueInputname += this.g_uniqueNameSeparator + position;
+			uniqueInputname += separator + position;
 		}
+		uniqueInputname = uniqueInputname.replace(" ", "");
 		return uniqueInputname.toLowerCase();
 	},
 	/**

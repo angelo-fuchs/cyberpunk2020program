@@ -443,6 +443,7 @@ function populateSkillNode(currentChar) {
 
 function makeNameDiv(node, name, className, withInput, hideInput) {
 	var myDiv = utilities.makeElement(node, "div", className);
+	myDiv.id=utilities.uniqueCssName(className, name, "OuterDiv");
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
 	if (withInput === true) {
 		var type = "name";
