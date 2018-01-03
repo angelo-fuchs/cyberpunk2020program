@@ -250,6 +250,14 @@ function calculateBT(currentChar) {
 	}
 }
 
+function calculateSave(currentChar) {
+	return getAttribute(currentChar, "Body");
+}
+
+function calculateHealPerDay(currentChar) {
+	return 1;
+}
+
 // Body Type Modifier (that gets subtracted from taken damage)
 function calculateBTM(currentChar) {
 	var bt = calculateBT(currentChar);
@@ -280,6 +288,14 @@ function calculateLeap(currentChar) {
 	var move = getAttribute(currentChar, "Move");
 	var result = move * 100 * 3 / 4;
 	return result + " m";
+}
+
+function calculateJump(currentChar) {
+	return "???";
+}
+
+function calculateSwim(currentChar) {
+	return "???";
 }
 
 function calculateHumanity(currentChar) {
