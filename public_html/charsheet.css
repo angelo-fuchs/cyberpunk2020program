@@ -92,9 +92,11 @@ h2 {
 	width: 100%;
 }
 #attributes {
+	float: left;
 	display: flex;
 	width: 99px;
 	padding: 3px;
+	border: 1px solid white;
 	height: 225px;
 	background-color: black;
 	color: white;
@@ -109,6 +111,33 @@ h2 {
 #attributes div input {
 	font-size: 10px;
 	width: 45px;
+	text-align: right;
+}
+#calculatedData {
+	float: left;
+	border: 1px solid white;
+	display: flex;
+	width: 420px;
+	padding: 3px;
+	height: 225px;
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	flex-flow: row wrap;
+	align-content: baseline;
+}
+#calculatedData div {
+	width: 105px;
+}
+#calculatedData div div {
+	width: 48px;
+	text-align: right;
+	margin-right: 2px;
+	float: left;
+}
+#calculatedData div input {
+	font-size: 10px;
+	width: 35px;
 	text-align: right;
 }
 #hits {

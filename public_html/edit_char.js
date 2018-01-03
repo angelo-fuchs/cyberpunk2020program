@@ -53,7 +53,6 @@ function addSkill() {
 	}
 }
 
-
 function addItem() {
 	var name = window.prompt("Name");
 	if (name === undefined || name === null) {
@@ -135,6 +134,7 @@ function refreshValues(currentChar) {
 	populateInventoryNode(currentChar);
 	populateCyberwareNode(currentChar);
 	populateNotesNode(currentChar);
+	populateCalculatedNode(currentChar);
 }
 
 function refreshPart(id, array) {
@@ -169,6 +169,129 @@ function populateNotesNode(currentChar) {
 	addAddButton(node, "note", "Notiz hinzufügen", function() {
 		addNote();
 	});
+}
+
+function getAttribute(currentChar, attribute) {
+	for (var ii in currentChar.attributes) {
+		var nextAttr = currentChar.attributes[ii];
+		if(nextAttr.name === attribute) {
+			return nextAttr.value;
+		}
+	}
+	return 0;
+}
+
+function populateCalculatedNode(currentChar) {
+	var node = document.getElementById("calculatedData");
+	utilities.clearNode(node);
+	makeACalcDiv(node, calculatePunch(currentChar), "Punch");
+	makeACalcDiv(node, calculateKick(currentChar), "Kick");
+	makeACalcDiv(node, calculateDamText(currentChar, true), "DAM");
+	makeACalcDiv(node, calculateHumanity(currentChar), "Humanity");
+	makeACalcDiv(node, calculateLift(currentChar), "Lift");
+	makeACalcDiv(node, calculateCarry(currentChar), "Carry");
+	makeACalcDiv(node, calculateThrow(currentChar), "Throw");
+	makeACalcDiv(node, calculateRun(currentChar), "Run");
+	makeACalcDiv(node, calculateLeap(currentChar), "Leap");
+	makeACalcDiv(node, calculateJump(currentChar), "Jump");
+	makeACalcDiv(node, calculateSwim(currentChar), "Swim");
+	makeACalcDiv(node, calculateBTM(currentChar), "BTM");
+	makeACalcDiv(node, calculateSave(currentChar), "Save");
+	makeACalcDiv(node, calculateHealPerDay(currentChar), "Heal/Day");
+}
+
+function makeACalcDiv(node, value, name) {
+	var calcDiv = makeNameDiv(node, name, name.toLowerCase() + "Div");
+	makeValueDiv(calcDiv, value, node.id, name);
+}
+
+// DAM = DAmage Modifier
+function calculateDamText(currentChar, withSero) {
+	var bt = calculateBT(currentChar);
+	switch (bt) {
+		case "VW": return "-2";
+		case "W": return "-1";
+		case "A": return withSero ? "+0" : "";
+		case "S": return "+1";
+		case "VS": return "+2";
+		default: return "+" + (getAttribute(currentChar, "Body") -7);
+	}
+}
+
+function calculateThrow(currentChar) {
+	var body = getAttribute(currentChar, "Body");
+	return (body * 10) + " m";
+}
+
+function calculateLift(currentChar) {
+	var body = getAttribute(currentChar, "Body");
+	return body * 40;
+}
+
+function calculateCarry(currentChar) {
+	var body = getAttribute(currentChar, "Body");
+	return body * 10;
+}
+
+function calculateBT(currentChar) {
+	var body = getAttribute(currentChar, "Body");
+	switch(body) {
+		case "1":
+		case "2": return "VW"; // Very weak
+		case "3":
+		case "4": return "W"; // Weak
+		case "5":
+		case "6":
+		case "7": return "A"; // Average
+		case "8":
+		case "9": return "S"; // Strong
+		case "10": return "VS"; // Very Strong
+		default: return "SH"; // Superhuman
+	}
+}
+
+// Body Type Modifier (that gets subtracted from taken damage)
+function calculateBTM(currentChar) {
+	var bt = calculateBT(currentChar);
+	switch(bt) {
+		case "VW": return -0;
+		case "W": return -1;
+		case "A": return -2;
+		case "S": return -3;
+		case "VS": return -4;
+		case "SH": return -5;
+	}
+}
+
+function calculatePunch(currentChar) {
+	return "1d6/2" + calculateDamText(currentChar);
+}
+
+function calculateKick(currentChar) {
+	return "1d6" + calculateDamText(currentChar);
+}
+
+function calculateRun(currentChar) {
+	var move = getAttribute(currentChar, "Move");
+	return (move * 3) + " m/s";
+}
+
+function calculateLeap(currentChar) {
+	var move = getAttribute(currentChar, "Move");
+	var result = move * 100 * 3 / 4;
+	return result + " m";
+}
+
+function calculateHumanity(currentChar) {
+	var emp = getAttribute(currentChar, "Emp");
+	var initialHumanity = emp * 10;
+	var remainingHumanity = initialHumanity;
+	var cyberware = currentChar.cyberware;
+	for (var ii in cyberware) {
+		var nextItem = cyberware[ii];
+		remainingHumanity = remainingHumanity - nextItem.humanitycost;
+	}
+	return initialHumanity + " / " + remainingHumanity;
 }
 
 function populateCyberwareNode(currentChar) {
