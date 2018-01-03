@@ -12,8 +12,8 @@
 	<body>
 		<input type="button" value="Create" onClick="newChar();" name="function-create" id="create_button"/>
 		<input type="button" value="Import" onClick="loadSave.charImport(function (loadedCharacter) {
-		refresh(loadedCharacter);
-	});" name="function-import" id="import_button"/>
+					refresh(loadedCharacter);
+				});" name="function-import" id="import_button"/>
 		<input type="button" value="Export" onclick="exportChar();" name="function-export" id="export_button"/>
 		<input type="button" value="Refresh" onclick="refreshChar();" name="function-refresh" id="refresh_button"/>
 		<input type="button" value="Remove Buttons" id="remove_button" onclick="{
@@ -27,10 +27,21 @@
 					button.parentNode.removeChild(button);
 					var button = document.getElementById('remove_button');
 					button.parentNode.removeChild(button);
-		}"/>
+				}"/>
 		<form id="characterForm">
-			<div id="base"></div>
-			<div id="attributes"></div>
+			<div id="leftPane">
+				<div id="base"></div>
+			</div>
+			<div id="rightPane">
+				<div id="headingDiv">
+					<div id="cyberpunk_heading">Cyberpunk</div>
+					<div id="charsheet_heading">Character Sheet</div>
+					<div id="date_heading"></div>
+					<script>var today = new Date();
+				document.getElementById("date_heading").innerHTML = today.toDateString();</script>
+				</div>
+				<div id="attributes"></div>
+			</div>
 			<div id="hits"></div>
 			<div id="skills"></div>
 			<div id="weapons"></div>

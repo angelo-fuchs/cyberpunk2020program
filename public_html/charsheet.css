@@ -19,6 +19,13 @@ h2 {
 .valueInput {
 	width: 50px;
 }
+#leftPane {
+	float: left;
+	padding: 5px;
+}
+#rightPane {
+	float: left;
+}
 #basediv-handle-outerdiv {
 	order: 1;
 }
@@ -59,19 +66,15 @@ h2 {
 	width: 300px;
 	float: left;
 }
-#base div.nameDiv{
-	clear: left;
-}
 #base div div {
 	width: 103px;
 }
 #base {
-	clear: both;
+	float: left;
 	display: flex;
 	width: 240px;
-	padding: 2px;
+	padding: 3px;
 	height: 275px;
-	border: 1px solid gray;
 	background-color: black;
 	color: white;
 	font-size: 10px;
@@ -82,14 +85,31 @@ h2 {
 	font-size: 10px;
 	width: 120px;
 }
-#attributes div {
-	float: left;
-}
-#attributes div div {
-	float: none;
+#headingDiv {
+	line-height: 18px;
+	font-size: 17px;
+	text-align: center;
+	width: 100%;
 }
 #attributes {
-	clear: both;
+	display: flex;
+	width: 99px;
+	padding: 3px;
+	height: 225px;
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+#attributes div div {
+	width: 35px;
+	float: left;
+}
+#attributes div input {
+	font-size: 10px;
+	width: 45px;
+	text-align: right;
 }
 #hits {
 	clear: both;
