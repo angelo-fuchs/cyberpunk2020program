@@ -556,13 +556,14 @@ function populateSkillNode(currentChar) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	var currentAttr = "";
+	var skillAttrNode = node;
 	for (var ii in dataArray) {
 		var nextSkill = dataArray[ii];
 		// print out Base as Header when it changes.
 		if (nextSkill.base.toLowerCase() !== currentAttr) {
 			currentAttr = nextSkill.base;
-			var headerDiv = utilities.makeElement(node, "div", "headerDiv");
-			var headerH2 = utilities.makeElement(headerDiv, "h2", "headerH2");
+			skillAttrNode = utilities.makeElement(node, "div", "headerDiv");
+			var headerH2 = utilities.makeElement(skillAttrNode, "h2", "headerH2");
 			headerH2.innerHTML = currentAttr;
 			currentAttr = currentAttr.toLowerCase();
 		}
@@ -611,7 +612,7 @@ function makeFactorDiv(myDiv, value, nodeId, name) {
 // nicht mit populateBaseAttrNode verwechseln. 
 function makeBaseDiv(myDiv, value, nodeId, name) {
 	baseDiv = utilities.makeElement(myDiv, "div", "baseDiv");
-	baseSelect = utilities.makeElement(baseDiv, "select", "baseSelect");
+	baseSelect = utilities.makeElement(baseDiv, "select", "baseSelect valueInput");
 	baseSelect.name = utilities.uniqueInputname(nodeId, name, "base");
 	// Attr, Body, Cool, Emp, Int, Luck, Move, Ref, Tech
 	makeOption(baseSelect, "Attr", value);

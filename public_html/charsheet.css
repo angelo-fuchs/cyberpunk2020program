@@ -11,8 +11,7 @@ body {
 }
 
 h2 {
-	color: #000;
-	font-size: 26px;
+	font-size: 16px;
 	margin: 0 0 11px;
 	padding: 0;
 }
@@ -70,7 +69,6 @@ h2 {
 	width: 103px;
 }
 #base {
-	float: left;
 	display: flex;
 	width: 240px;
 	padding: 3px;
@@ -124,7 +122,7 @@ h2 {
 	color: white;
 	font-size: 10px;
 	flex-flow: row wrap;
-	align-content: baseline;
+	align-content: flex-start;
 }
 #calculatedData div {
 	width: 105px;
@@ -141,7 +139,15 @@ h2 {
 	text-align: right;
 }
 #hits {
-	clear: both;
+	display: flex;
+	width: 240px;
+	padding: 3px;
+	height: 275px;
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	flex-wrap: wrap;
+	flex-direction: column;
 }
 #hits div {
 	float: left;
@@ -159,13 +165,22 @@ h2 {
 	float: left;
 }
 #skills .nameDiv {
-	width: 150px;
+	width: 100px;
 }
 #skills div .valueInput {
-	width: 50px;
+	font-size: 10px;
+	width: 15px;
+	text-align: right;
 }
 #skills {
-	clear: both;
+	border: 1px solid white;
+	width: 527px;
+	padding: 3px;
+	background-color: black;
+	color: white;
+	font-size: 10px;
+	display: flex;
+	flex-flow: row wrap;
 }
 #weapons {
 	clear: both;
