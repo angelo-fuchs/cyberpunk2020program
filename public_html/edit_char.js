@@ -558,16 +558,16 @@ function makeAreaInput(myDiv, value, distance, nodeId, name, position) {
 
 function populateWeaponNode(currentChar) {
 	var dataArray = currentChar.weapons;
-	var node = getAndClearNode("weapons");
+	var weaponsNode = getAndClearNode("weapons");
 	dataArray.sort(function (a, b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
 		if (skillCompare !== 0)
 			return skillCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
-	makeHeader(node, "Waffen");
+	makeHeader(weaponsNode, "Waffen");
 	
-	var table = utilities.makeElement(node, "table", "weaponTable");
+	var table = utilities.makeElement(weaponsNode, "table", "weaponTable");
 	var headRow = utilities.makeElement(table, "tr", "headRow");
 	utilities.makeElement(headRow, "td").innerHTML = "Base";
 	utilities.makeElement(headRow, "td").innerHTML = "Bonus";
@@ -577,17 +577,17 @@ function populateWeaponNode(currentChar) {
 		var nextWeapon = dataArray[ii];
 		var weaponRow = utilities.makeElement(table, "tr", "weaponRow");
 		var nameDiv = makeNameDiv(weaponRow, nextWeapon.name, "weaponDiv", true, false);
-		makeSkillDiv(nameDiv, nextWeapon.skill, node.id, nextWeapon.name);
-		makeRangeDiv(nameDiv, nextWeapon.range, node.id, nextWeapon.name);
-		makeConcealabilityDiv(nameDiv, nextWeapon.concealability, node.id, nextWeapon.name);
-		makeReliabilityDiv(nameDiv, nextWeapon.reliability, node.id, nextWeapon.name);
-		makeBonusCell(weaponRow, nextWeapon.bonus, node.id, nextWeapon.name);
-		var ammoCell = makeAmmunitionCell(weaponRow, nextWeapon.ammunition, node.id, nextWeapon.name);
-		makeDamageDiv(ammoCell, nextWeapon.damage, node.id, nextWeapon.name);
-		makeClipsDiv(ammoCell, nextWeapon.clips, node.id, nextWeapon.name);
-		makeFiremodesCell(weaponRow, nextWeapon.firemodes, node.id, nextWeapon.name);
+		makeSkillDiv(nameDiv, nextWeapon.skill, weaponsNode.id, nextWeapon.name);
+		makeRangeDiv(nameDiv, nextWeapon.range, weaponsNode.id, nextWeapon.name);
+		makeConcealabilityDiv(nameDiv, nextWeapon.concealability, weaponsNode.id, nextWeapon.name);
+		makeReliabilityDiv(nameDiv, nextWeapon.reliability, weaponsNode.id, nextWeapon.name);
+		makeBonusCell(weaponRow, nextWeapon.bonus, weaponsNode.id, nextWeapon.name);
+		var ammoCell = makeAmmunitionCell(weaponRow, nextWeapon.ammunition, weaponsNode.id, nextWeapon.name);
+		makeDamageDiv(ammoCell, nextWeapon.damage, weaponsNode.id, nextWeapon.name);
+		makeClipsDiv(ammoCell, nextWeapon.clips, weaponsNode.id, nextWeapon.name);
+		makeFiremodesCell(weaponRow, nextWeapon.firemodes, weaponsNode.id, nextWeapon.name);
 	}
-	addAddButton(node, "weapon", "Waffe hinzufügen", function () {
+	addAddButton(weaponsNode, "weapon", "Waffe hinzufügen", function () {
 		addWeapon();
 	});
 }
@@ -851,7 +851,9 @@ function makeCharFromForm() {
 	var charMap = utilities.serialize(document.getElementById("characterForm"));
 	var currentChar = new Char();
 	charMap.forEach(function (value, key) {
-		currentChar.addElement(utilities.arrayFromUniqueInputName(key), value);
+		console.log("next key: " + key);
+		if(!key.startsWith("calculateddata"))
+			currentChar.addElement(utilities.arrayFromUniqueInputName(key), value);
 	});
 	return currentChar;
 }

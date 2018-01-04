@@ -39,7 +39,7 @@ function Char() {
 		{"name": "L-Bein", "value": "0"},
 		{"name": "R-Bein", "value": "0"},
 		{"name": "L-Fuss", "value": "0"},
-		{"name": "R-Fuss", "value": "0"},
+		{"name": "R-Fuss", "value": "0"}
 	];
 	this.armor = [];
 	this.weapons = [];
@@ -118,7 +118,9 @@ Char.prototype = {
 	getOrCreateElementFromName: function (baseArray, name) {
 		for (var jj in baseArray) { // currentElement is an Array at this point.
 			var nextElement = baseArray[jj];
-			if (utilities.equalsIgnoreCase(nextElement.name, name)) {
+			var uniqueName = utilities.uniqueInputname("area", name, "type");
+			var nextUniqueName = utilities.uniqueInputname("area", nextElement.name, "type");
+			if (nextUniqueName === uniqueName) {
 				baseArray = nextElement;
 				return nextElement;
 			}
@@ -148,7 +150,7 @@ Char.prototype = {
 			case 'cyberware' :
 				return this.cyberware;
 			default:
-				throw 'unexpected base array entry: ' + name;
+				throw 'unexpected base array entry: >' + name + '<';
 		}
 	}
 };
