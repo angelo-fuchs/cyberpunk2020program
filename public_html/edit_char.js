@@ -128,6 +128,7 @@ function refreshValues(currentChar) {
 	refreshPart("base", currentChar.base);
 	refreshPart("attributes", currentChar.attributes);
 	refreshPart("hits", currentChar.hits);
+	refreshHandle(currentChar);
 	populateArmorNode(currentChar);
 	populateArmorAreaNode(currentChar);
 	populateSkillNode(currentChar);
@@ -136,6 +137,11 @@ function refreshValues(currentChar) {
 	populateCyberwareNode(currentChar);
 	populateNotesNode(currentChar);
 	populateCalculatedNode(currentChar);
+}
+
+function refreshHandle(currentChar) {
+	var div = getAndClearNode("name_heading");
+	div.innerHTML = getBase(currentChar, "Handle");
 }
 
 function refreshPart(id, array) {
@@ -175,6 +181,16 @@ function getAttribute(currentChar, attribute) {
 		var nextAttr = currentChar.attributes[ii];
 		if (nextAttr.name === attribute) {
 			return nextAttr.value;
+		}
+	}
+	return 0;
+}
+
+function getBase(currentChar, element) {
+	for (var ii in currentChar.base) {
+		var nextBase = currentChar.base[ii];
+		if (nextBase.name === element) {
+			return nextBase.value;
 		}
 	}
 	return 0;

@@ -99,6 +99,9 @@ h2 {
 	font-size: 17px;
 	text-align: center;
 	width: 100%;
+	display: flex;
+	flex-flow: column wrap;
+	height: 40px;
 }
 #attributes {
 	float: left;
