@@ -104,7 +104,7 @@ utilities = {
 	 * @param {String} label The text that should accompany the input
 	 * @returns {Element} the newly created div
 	 */
-	makeTextAreaDiv: function (parentDiv, value, area, name, type, label, position) {
+	makeTextAreaDiv: function (parentDiv, value, area, name, type, label) {
 		var genericDiv = this.makeLabeledDiv(parentDiv, type, label);
 		var genericInput = this.makeElement(genericDiv, "textarea", type + "Input, valueInput");
 		genericInput.value = value;
@@ -123,11 +123,37 @@ utilities = {
 	 * @returns {Element} the newly created div
 	 */
 	makeGenericInputDiv: function (parentDiv, value, area, name, type, label, position) {
-		var genericDiv = this.makeLabeledDiv(parentDiv, type, label);
-		var genericInput = this.makeElement(genericDiv, "input", type + "Input, valueInput");
+		var genericDiv;
+		if(label !== undefined) {
+			genericDiv = this.makeLabeledDiv(parentDiv, type, label);
+		} else {
+			genericDiv = this.makeElement(parentDiv, "div");
+		}
+		var genericInput = this.makeElement(genericDiv, "input", type + "Input valueInput");
 		genericInput.value = value;
 		genericInput.name = this.uniqueInputname(area, name, type, position);
 		return genericDiv;
+	},
+	/**
+	 * Creates a TD that contains an input element.
+	 * @param {Element} parentDiv the container for the new div
+	 * @param {String} value the value that should be displayed
+	 * @param {String} area section of the object (e.G. weapons for a character)
+	 * @param {String} name the name of the input in its area (e.G. ak-47 for a weapon in a character)
+	 * @param {String} type The aspect of the element (e.G. ammunition for the ak-47)
+	 * @param {String} label The text that should accompany the input, optional
+	 * @param {int} position the position inside the array, optional
+	 * @returns {Element} the newly created div
+	 */
+	makeGenericInputCell: function (parentDiv, value, area, name, type, label, position) {
+		var genericCell = this.makeElement(parentDiv, "td", "typeInput");
+		if(label !== undefined) {
+			genericCell.innerHTML = label + ": ";
+		}
+		var genericInput = this.makeElement(genericCell, "input", type + "Input valueInput");
+		genericInput.value = value;
+		genericInput.name = this.uniqueInputname(area, name, type, position);
+		return genericCell;
 	},
 	/**
 	 * Creates a div that contains a name and an input element.

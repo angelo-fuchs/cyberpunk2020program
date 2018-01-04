@@ -103,10 +103,10 @@ h2 {
 #attributes {
 	float: left;
 	display: flex;
-	width: 99px;
+	width: 200px;
 	padding: 3px;
 	border: 1px solid white;
-	height: 233px;
+	height: 133px;
 	background-color: black;
 	color: white;
 	font-size: 10px;
@@ -125,8 +125,8 @@ h2 {
 #calculatedData {
 	float: left;
 	display: flex;
-	width: 436px;
-	height: 233px;
+	width: 327px;
+	height: 133px;
 	flex-flow: row wrap;
 	align-content: flex-start;
 }
@@ -176,9 +176,12 @@ h2 {
 .headRow {
 	font-weight: bold;
 	width: 100%;
+	text-align: center;
 }
 .headerDiv {
 	clear: both;
+	text-align: center;
+	width: 100%;
 }
 .skillDiv {
 	clear: both;
@@ -199,44 +202,42 @@ h2 {
 	width: 535px;
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: left;
-	align-content: left;
-	align-items: left;
 }
 #weapons {
-	width: 527px;
+	width: 535px;
 	display: flex;
 	flex-flow: row wrap;
 }
+.concealabilityInput, .rangeInput, .reliabilityInput, .damageInput {
+	width: 90px;
+}
+.weaponRow {
+	border-top: 1px solid gray;
+}
 .weaponDiv {
 	clear: both;
-	border-top: 1px solid gray;
+	display: flex;
+	flex-flow: column;
 }
 .weaponDiv .nameDiv {
 	font-weight: bold;
+	text-align: center;
 	clear: both;
 }
 .weaponDiv div {
 	float: left;
+	text-align: right;
 	clear: none;
 	padding-right: 5px;
 }
-.weaponDiv .racDiv div {
-	float: none;
+.firemodesCell {
+	width: 51px;
+}
+.bonusCell {
 	text-align: right;
 }
-.firemodesDiv .firemodeTitleDiv {
-	float: none;
-}
-.firemodesDiv div {
-	float: left;
-}
-.bonusNameDiv {
-	text-align: right;
-}
-.bonusNameDiv div {
-	float: none;
-	clear: left;
+.bonusDiv {
+	white-space: nowrap;
 }
 #inventory {
 	width: 527px;

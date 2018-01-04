@@ -477,7 +477,7 @@ function makeArmorArea(table, area, areaCount, currentChar) {
 
 function populateArmorNode(currentChar) {
 	var dataArray = currentChar.armor;
-	var node = getAndClearNode("armor");
+	var armorNode = getAndClearNode("armor");
 	dataArray.sort(function (a, b) {
 		var layerCompare = a.layer - b.layer;
 		if (layerCompare !== 0)
@@ -485,18 +485,18 @@ function populateArmorNode(currentChar) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 
-	makeHeader(node, "Rüstung");
+	makeHeader(armorNode, "Rüstung");
 
 	for (var ii in dataArray) {
 		var nextArmor = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true, false);
-		var areasDiv = makeAreasDiv(myDiv, nextArmor.areas, node.id, nextArmor.name);
+		var areasDiv = makeAreasDiv(myDiv, nextArmor.areas, armorNode.id, nextArmor.name);
 		var hleDiv = utilities.makeElement(myDiv, "div", "hleDiv");
-		var hardnessDiv = makeHardnessDiv(hleDiv, nextArmor.hard, node.id, nextArmor.name);
-		var layerDiv = makeLayerDiv(hleDiv, nextArmor.layer, node.id, nextArmor.name);
-		var encumbranceDiv = makeEncumbranceDiv(hleDiv, nextArmor.encumberence, node.id, nextArmor.name);
+		var hardnessDiv = makeHardnessDiv(hleDiv, nextArmor.hard, armorNode.id, nextArmor.name);
+		var layerDiv = makeLayerDiv(hleDiv, nextArmor.layer, armorNode.id, nextArmor.name);
+		var encumbranceDiv = makeEncumbranceDiv(hleDiv, nextArmor.encumberence, armorNode.id, nextArmor.name);
 	}
-	addAddButton(node, "armor", "Rüstung hinzufügen", function () {
+	addAddButton(armorNode, "armor", "Rüstung hinzufügen", function () {
 		addArmor();
 	});
 }
@@ -550,18 +550,26 @@ function populateWeaponNode(currentChar) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	makeHeader(node, "Waffen");
+	
+	var table = utilities.makeElement(node, "table", "weaponTable");
+	var headRow = utilities.makeElement(table, "tr", "headRow");
+	utilities.makeElement(headRow, "td").innerHTML = "Base";
+	utilities.makeElement(headRow, "td").innerHTML = "Bonus";
+	utilities.makeElement(headRow, "td").innerHTML = "Ammo";
+	utilities.makeElement(headRow, "td").innerHTML = "Firemodes";
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextWeapon.name, "weaponDiv", true, false);
-		var skillDiv = makeSkillDiv(myDiv, nextWeapon.skill, node.id, nextWeapon.name);
-		var bonusDiv = makeBonusDiv(myDiv, nextWeapon.bonus, node.id, nextWeapon.name);
-		var racDiv = utilities.makeElement(myDiv, "div", "racDiv");
-		var rangeDiv = makeRangeDiv(racDiv, nextWeapon.range, node.id, nextWeapon.name);
-		var ammunitionDiv = makeAmmunitionDiv(racDiv, nextWeapon.ammunition, node.id, nextWeapon.name);
-		var concealabilityDiv = makeConcealabilityDiv(racDiv, nextWeapon.concealability, node.id, nextWeapon.name);
-		var firemodesDiv = makeFiremodesDiv(myDiv, nextWeapon.firemodes, node.id, nextWeapon.name);
-		var reliabilityDiv = makeReliabilityDiv(racDiv, nextWeapon.reliability, node.id, nextWeapon.name);
-		var damageDiv = makeDamageDiv(racDiv, nextWeapon.damage, node.id, nextWeapon.name);
+		var weaponRow = utilities.makeElement(table, "tr", "weaponRow");
+		var nameDiv = makeNameDiv(weaponRow, nextWeapon.name, "weaponDiv", true, false);
+		makeSkillDiv(nameDiv, nextWeapon.skill, node.id, nextWeapon.name);
+		makeRangeDiv(nameDiv, nextWeapon.range, node.id, nextWeapon.name);
+		makeConcealabilityDiv(nameDiv, nextWeapon.concealability, node.id, nextWeapon.name);
+		makeReliabilityDiv(nameDiv, nextWeapon.reliability, node.id, nextWeapon.name);
+		makeBonusCell(weaponRow, nextWeapon.bonus, node.id, nextWeapon.name);
+		var ammoCell = makeAmmunitionCell(weaponRow, nextWeapon.ammunition, node.id, nextWeapon.name);
+		makeDamageDiv(ammoCell, nextWeapon.damage, node.id, nextWeapon.name);
+		makeClipsDiv(ammoCell, nextWeapon.clips, node.id, nextWeapon.name);
+		makeFiremodesCell(weaponRow, nextWeapon.firemodes, node.id, nextWeapon.name);
 	}
 	addAddButton(node, "weapon", "Waffe hinzufügen", function () {
 		addWeapon();
@@ -596,42 +604,45 @@ function makeHeader(parentNode, name) {
 	return headerDiv;
 }
 
-function makeFiremodesDiv(myDiv, value, nodeId, name) {
-	var firemodesDiv = utilities.makeElement(myDiv, "div", "firemodesDiv");
-	var nameDiv = utilities.makeElement(firemodesDiv, "div", "firemodeTitleDiv");
-	nameDiv.innerHTML = "Feuerfrequenzen";
+function makeFiremodesCell(myDiv, value, nodeId, name) {
+	var firemodesCell = utilities.makeElement(myDiv, "td", "firemodesCell");
+	var firemodesDiv = utilities.makeElement(firemodesCell, "div", "firemodesDiv");
 	for (var ii in value)
 		utilities.makeGenericInputDiv(firemodesDiv, value[ii], nodeId, name, "firemodes", undefined, ii);
-	return firemodesDiv;
+	return firemodesCell;
 }
 
 function makeReliabilityDiv(parentDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(parentDiv, value, nodeId, name, "reliability", "Zuverl&auml;ssigkeit");
+	return utilities.makeGenericInputDiv(parentDiv, value, nodeId, name, "reliability", "Relyability");
 }
 
 function makeDamageDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "damage", "Schaden");
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "damage", "Damage");
+}
+
+function makeClipsDiv(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "clips", "Clips");
 }
 
 function makeConcealabilityDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "concealability", "kleinstes Versteck");
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "concealability", "Conceal.");
 }
 
-function makeAmmunitionDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "ammunition", "Magazingröße");
+function makeAmmunitionCell(myDiv, value, nodeId, name) {
+	return utilities.makeGenericInputCell(myDiv, value, nodeId, name, "ammunition", "Per Clip");
 }
 
 function makeRangeDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "range", "Reichweite");
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "range", "Range");
 }
 
-function makeBonusDiv(myDiv, value, nodeId, name) {
-	var bonusDiv = makeNameDiv(myDiv, "Bonus", "bonusNameDiv", false);
-	makeBonusInput(bonusDiv, value[0], "Nah", nodeId, name, 0);
-	makeBonusInput(bonusDiv, value[1], "Medium", nodeId, name, 1);
-	makeBonusInput(bonusDiv, value[2], "Weit", nodeId, name, 2);
-	makeBonusInput(bonusDiv, value[3], "Extrem", nodeId, name, 3);
-	return bonusDiv;
+function makeBonusCell(myRow, value, nodeId, name) {
+	var myCell = utilities.makeElement(myRow, "td", "bonusCell");
+	makeBonusInput(myCell, value[0], "Nah", nodeId, name, 0);
+	makeBonusInput(myCell, value[1], "Medium", nodeId, name, 1);
+	makeBonusInput(myCell, value[2], "Weit", nodeId, name, 2);
+	makeBonusInput(myCell, value[3], "Extrem", nodeId, name, 3);
+	return myCell;
 }
 
 function makeBonusInput(myDiv, value, distance, nodeId, name, position) {
@@ -690,12 +701,6 @@ function populateSkillNode(currentChar) {
 			tableNode = makeSkillHeadArea(skillAttrNode, currentAttr);
 			currentAttr = currentAttr.toLowerCase();
 		}
-<<<<<<< HEAD
-		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true, false);
-		var valueDiv = makeValueDiv(myDiv, nextSkill.value, node.id, nextSkill.name);
-		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
-		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
-=======
 		makeOneSkillRow(tableNode, nextSkill, skillsNode);
 	}
 	var skillsInBlock = ii - lastStop +2; // 2 for header
@@ -705,7 +710,6 @@ function populateSkillNode(currentChar) {
 	} else { // add to right column
 		rightCount += skillsInBlock;
 		rightColumnNode.appendChild(skillAttrNode);
->>>>>>> skills are now properly cleaned up for display.
 	}
 	var buttonColumn;
 	if(leftCount < rightCount || leftCount === 0) { // add to left column
@@ -720,7 +724,9 @@ function populateSkillNode(currentChar) {
 }
 
 function makeOneSkillRow(tableNode, nextSkill, skillsNode) {
-	var myRow = makeNameCell(tableNode, nextSkill.name, "skillDiv", true);
+	var myRow = utilities.makeElement(tableNode, "tr", "skillDiv");
+	myRow.id = utilities.uniqueCssName("skillDiv", nextSkill.name, "OuterDiv");
+	makeNameCell(myRow, skillsNode, nextSkill.name, true, false);
 	var valueCell = utilities.makeElement(myRow, "td", "cell");
 	makeValueDiv(valueCell, nextSkill.value, skillsNode.id, nextSkill.name);
 	var baseCell = utilities.makeElement(myRow, "td", "cell");
@@ -742,23 +748,25 @@ function makeSkillHeadArea(skillAttrNode, currentAttr) {
 	return tableNode;
 }
 
-function makeNameCell(node, name, className, withHiddenInput) {
-	var myTr = utilities.makeElement(node, "tr", className);
-	myTr.id = utilities.uniqueCssName(className, name, "OuterDiv");
-	var nameDiv = utilities.makeElement(myTr, "td", "nameDiv");
-	nameDiv.innerHTML = "<b>" + name + "</b>";
+function makeNameCell(row, sectionNode, name, withHiddenInput) {
+	var nameCell = utilities.makeElement(row, "td", "nameDiv");
+	nameCell.innerHTML = "<b>" + name + "</b>";
 	if (withHiddenInput) {
-		var type = "name";
-		var hiddenInput = utilities.makeElement(nameDiv, "input", type + "Input, hiddenInput");
-		hiddenInput.value = name;
-		hiddenInput.type = "hidden";
-		hiddenInput.name = utilities.uniqueInputname(node.id, name, type);
+		makeHiddenNameInput(nameCell, sectionNode, name);
 	}
-	return myTr;
+	return nameCell;
 }
 
-function makeNameDiv(node, name, className, withInput, hideInput) {
-	var myDiv = utilities.makeElement(node, "div", className);
+function makeHiddenNameInput(nameNode, sectionNode, name) {
+		var type = "name";
+		var hiddenInput = utilities.makeElement(nameNode, "input", type + "Input, hiddenInput");
+		hiddenInput.value = name;
+		hiddenInput.type = "hidden";
+		hiddenInput.name = utilities.uniqueInputname(sectionNode.id, name, type);
+}
+
+function makeNameDiv(sectionNode, name, className, withInput, hideInput) {
+	var myDiv = utilities.makeElement(sectionNode, "div", className);
 	myDiv.id = utilities.uniqueCssName(className, name, "OuterDiv");
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
 	if (withInput === true) {
@@ -770,7 +778,7 @@ function makeNameDiv(node, name, className, withInput, hideInput) {
 			input.type = "text";
 		}
 		input.value = name;
-		input.name = utilities.uniqueInputname(node.id, name, type);
+		input.name = utilities.uniqueInputname(sectionNode.id, name, type);
 	} else {
 		nameDiv.innerHTML = name;
 	}
