@@ -162,7 +162,8 @@ h2 {
 }
 .table {
 	display: table;
-	border: 2px solid white;
+	padding: 2px;
+	width: 100%;
 }
 .table div {
 	display: table-row;
@@ -174,6 +175,7 @@ h2 {
 }
 .headRow {
 	font-weight: bold;
+	width: 100%;
 }
 .headerDiv {
 	clear: both;
@@ -184,27 +186,22 @@ h2 {
 .skillDiv div {
 	float: left;
 }
-#skills .nameDiv {
-	width: 100px;
+.skillAttrDiv {
+	padding: 2px;
 }
-#skills div div {
-	width: initial;
-}
-#skills div {
+.leftSkillColumn {
 	width: 50%;
-	padding: 3px;
-	overflow: hidden;
-	white-space: nowrap;
 }
-#skills div .valueInput {
-	font-size: 10px;
-	width: 35px;
-	text-align: right;
+.rightSkillColumn {
+	width: 50%;
 }
 #skills {
 	width: 535px;
 	display: flex;
 	flex-flow: row wrap;
+	justify-content: left;
+	align-content: left;
+	align-items: left;
 }
 #weapons {
 	width: 527px;

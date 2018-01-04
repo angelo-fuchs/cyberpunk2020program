@@ -139,8 +139,7 @@ function refreshValues(currentChar) {
 }
 
 function refreshPart(id, array) {
-	var elem = document.getElementById(id);
-	utilities.clearNode(elem);
+	var elem = getAndClearNode(id);
 	if (id === "base" || id === "attributes" || id === "hits") {
 		populateBaseAttrNode(elem, array, id);
 	} else {
@@ -150,8 +149,7 @@ function refreshPart(id, array) {
 
 function populateNotesNode(currentChar) {
 	var dataArray = currentChar.notes;
-	var node = document.getElementById("notes");
-	utilities.clearNode(node);
+	var node = getAndClearNode("notes");
 	dataArray.sort(function (a, b) {
 		var result = a.order - b.order;
 		if (result === 0 || result === undefined) {
@@ -183,8 +181,7 @@ function getAttribute(currentChar, attribute) {
 }
 
 function populateCalculatedNode(currentChar) {
-	var node = document.getElementById("calculatedData");
-	utilities.clearNode(node);
+	var node = getAndClearNode("calculatedData");
 	makeACalcDiv(node, calculatePunch(currentChar), "Punch");
 	makeACalcDiv(node, calculateKick(currentChar), "Kick");
 	makeACalcDiv(node, calculateDamText(currentChar, true), "DAM");
@@ -331,8 +328,7 @@ function calculateHumanity(currentChar) {
 
 function populateCyberwareNode(currentChar) {
 	var dataArray = currentChar.cyberware;
-	var node = document.getElementById("cyberware");
-	utilities.clearNode(node);
+	var node = getAndClearNode("cyberware");
 	dataArray.sort(function (a, b) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
@@ -351,8 +347,7 @@ function populateCyberwareNode(currentChar) {
 
 function populateInventoryNode(currentChar) {
 	var dataArray = currentChar.inventory;
-	var node = document.getElementById("inventory");
-	utilities.clearNode(node);
+	var node = getAndClearNode("inventory");
 	dataArray.sort(function (a, b) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
@@ -398,11 +393,17 @@ function makeLocationDiv(myDiv, value, nodeId, name) {
 	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "location", "Aufbewahrungsort");
 }
 
+function getAndClearNode(nodeId) {
+	var node = document.getElementById(nodeId);
+	utilities.clearNode(node);
+	return node;
+}
+
 function populateArmorAreaNode(currentChar) {
-	var node = document.getElementById("armorArea");
+	var node = getAndClearNode("armorArea");
 	var titleNode = utilities.makeElement(node, "span", "sectionTitle");
 	titleNode.innerHTML = "HIT LOCATION TABLE";
-	
+
 	var table = utilities.makeElement(node, "div", "table");
 	var headRow = utilities.makeElement(table, "div", "headRow");
 	utilities.makeElement(headRow, "div").innerHTML = "Roll";
@@ -437,35 +438,35 @@ function populateArmorAreaNode(currentChar) {
 function makeArmorArea(table, area, areaCount, currentChar) {
 	var armor = currentChar.armor;
 	var rowDiv = utilities.makeElement(table, "div", "contentRow");
-	for(var ii in area) {
+	for (var ii in area) {
 		var entry = area[ii];
 		utilities.makeElement(rowDiv, "div", "tableCell").innerHTML = entry;
 	}
 	var highestLayer = 1000000;
 	var total = 0;
-	for(var sps = 3; sps > 0; sps--) {
+	for (var sps = 3; sps > 0; sps--) {
 		var currentBestLayer = {
-		"name": "Nothing",
-		"areas": [0,0,0,0,0,0,0,0,0,0,0,0,0],
-		"hard": false,
-		"layer": -1,
-		"encumberence": 0
+			"name": "Nothing",
+			"areas": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"hard": false,
+			"layer": -1,
+			"encumberence": 0
 		};
-		for(var armorCount in armor) {
+		for (var armorCount in armor) {
 			var oneLayer = armor[armorCount];
-			if(oneLayer.layer >= highestLayer)
+			if (oneLayer.layer >= highestLayer)
 				continue; // already done previously
 			var areasOfLayer = oneLayer.areas;
 			var protectionAtZone = areasOfLayer[areaCount];
-			if(protectionAtZone > 0 &&
-					oneLayer.layer > currentBestLayer.layer) {
-					currentBestLayer = oneLayer;
+			if (protectionAtZone > 0 &&
+							oneLayer.layer > currentBestLayer.layer) {
+				currentBestLayer = oneLayer;
 			}
 		}
 		highestLayer = currentBestLayer.layer;
 		var spDiv = utilities.makeElement(rowDiv, "div", "tableCell");
 		spDiv.innerHTML = currentBestLayer.areas[areaCount];
-		if(currentBestLayer.hard) {
+		if (currentBestLayer.hard) {
 			spDiv.class = "tableCell hardArmor";
 		}
 		total += (currentBestLayer.areas[areaCount] * 1);
@@ -476,8 +477,7 @@ function makeArmorArea(table, area, areaCount, currentChar) {
 
 function populateArmorNode(currentChar) {
 	var dataArray = currentChar.armor;
-	var node = document.getElementById("armor");
-	utilities.clearNode(node);
+	var node = getAndClearNode("armor");
 	dataArray.sort(function (a, b) {
 		var layerCompare = a.layer - b.layer;
 		if (layerCompare !== 0)
@@ -542,8 +542,7 @@ function makeAreaInput(myDiv, value, distance, nodeId, name, position) {
 
 function populateWeaponNode(currentChar) {
 	var dataArray = currentChar.weapons;
-	var node = document.getElementById("weapons");
-	utilities.clearNode(node);
+	var node = getAndClearNode("weapons");
 	dataArray.sort(function (a, b) {
 		var skillCompare = a.skill.toLowerCase().localeCompare(b.skill.toLowerCase());
 		if (skillCompare !== 0)
@@ -569,14 +568,14 @@ function populateWeaponNode(currentChar) {
 	});
 }
 
-var buttons = ['create_button','import_button','export_button','refresh_button','remove_button'];
+var buttons = ['create_button', 'import_button', 'export_button', 'refresh_button', 'remove_button'];
 
 function addAddButton(node, type, text, callback) {
 	var buttonDiv = utilities.makeElement(node, "div", type + "Div");
 	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
 	addButton.value = text;
 	addButton.id = "add" + type + "Button";
-	if(!buttons.includes(addButton.id))
+	if (!buttons.includes(addButton.id))
 		buttons.push(addButton.id);
 	addButton.type = "button";
 	addButton.onclick = callback;
@@ -654,35 +653,107 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 }
 
 function populateSkillNode(currentChar) {
-	var dataArray = currentChar.skills;
-	var node = document.getElementById("skills");
-	utilities.clearNode(node);
-	dataArray.sort(function (a, b) {
+	var allSkills = currentChar.skills;
+	var skillsNode = getAndClearNode("skills");
+	allSkills.sort(function (a, b) {
 		var baseCompare = a.base.toLowerCase().localeCompare(b.base.toLowerCase());
 		if (baseCompare !== 0)
 			return baseCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	var currentAttr = "";
-	var skillAttrNode = node;
-	for (var ii in dataArray) {
-		var nextSkill = dataArray[ii];
+	var leftColumnNode = utilities.makeElement(skillsNode, "div", "leftSkillColumn");
+	var leftCount = 0;
+	var rightCount = 0;
+	var rightColumnNode = utilities.makeElement(skillsNode, "div", "rightSkillColumn");
+	var lastStop = 0;
+	var skillAttrNode = undefined;
+	var tableNode = leftColumnNode;
+	for (var ii in allSkills) {
+		var nextSkill = allSkills[ii];
 		// print out Base as Header when it changes.
 		if (nextSkill.base.toLowerCase() !== currentAttr) {
+			if(skillAttrNode !== undefined) {
+				var skillsInBlock = ii - lastStop +2; // 2 for header
+				lastStop = ii;
+				if(leftCount < rightCount || leftCount === 0) { // add to left column
+					leftCount += skillsInBlock;
+					leftColumnNode.appendChild(skillAttrNode);
+				} else { // add to right column
+					rightCount += skillsInBlock;
+					rightColumnNode.appendChild(skillAttrNode);
+				}
+			}
 			currentAttr = nextSkill.base;
-			skillAttrNode = utilities.makeElement(node, "div", "headerDiv");
-			var headerH2 = utilities.makeElement(skillAttrNode, "h2", "headerH2");
-			headerH2.innerHTML = currentAttr;
+			skillAttrNode = utilities.makeElement(skillsNode, "div", "skillAttrDiv");
+			tableNode = makeSkillHeadArea(skillAttrNode, currentAttr);
 			currentAttr = currentAttr.toLowerCase();
 		}
+<<<<<<< HEAD
 		var myDiv = makeNameDiv(node, nextSkill.name, "skillDiv", true, false);
 		var valueDiv = makeValueDiv(myDiv, nextSkill.value, node.id, nextSkill.name);
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
+=======
+		makeOneSkillRow(tableNode, nextSkill, skillsNode);
 	}
-	addAddButton(node, "skill", "Fertigkeit hinzufügen", function () {
+	var skillsInBlock = ii - lastStop +2; // 2 for header
+	if(leftCount < rightCount || leftCount === 0) { // add to left column
+		leftCount += skillsInBlock;
+		leftColumnNode.appendChild(skillAttrNode);
+	} else { // add to right column
+		rightCount += skillsInBlock;
+		rightColumnNode.appendChild(skillAttrNode);
+>>>>>>> skills are now properly cleaned up for display.
+	}
+	var buttonColumn;
+	if(leftCount < rightCount || leftCount === 0) { // add to left column
+		buttonColumn = leftColumnNode;
+	} else { // add to right column
+		buttonColumn = rightColumnNode;
+	}
+	var buttonArea = utilities.makeElement(buttonColumn, "div", "skillAttrDiv");
+	addAddButton(buttonArea, "skill", "Fertigkeit hinzufügen", function () {
 		addSkill();
 	});
+}
+
+function makeOneSkillRow(tableNode, nextSkill, skillsNode) {
+	var myRow = makeNameCell(tableNode, nextSkill.name, "skillDiv", true);
+	var valueCell = utilities.makeElement(myRow, "td", "cell");
+	makeValueDiv(valueCell, nextSkill.value, skillsNode.id, nextSkill.name);
+	var baseCell = utilities.makeElement(myRow, "td", "cell");
+	makeBaseDiv(baseCell, nextSkill.base, skillsNode.id, nextSkill.name);
+	var factorCell = utilities.makeElement(myRow, "td", "cell");
+	makeFactorDiv(factorCell, nextSkill.factor, skillsNode.id, nextSkill.name);
+}
+
+function makeSkillHeadArea(skillAttrNode, currentAttr) {
+	var headNode = utilities.makeElement(skillAttrNode, "div", "headerDiv");
+	var headerH2 = utilities.makeElement(headNode, "h2", "headerH2");
+	headerH2.innerHTML = currentAttr;
+	var tableNode = utilities.makeElement(skillAttrNode, "table", "table");
+	var headRow = utilities.makeElement(tableNode, "tr", "headRow");
+	utilities.makeElement(headRow, "td", "nameDiv").innerHTML = "Name";
+	utilities.makeElement(headRow, "td", "valueDiv").innerHTML = "Level";
+	utilities.makeElement(headRow, "td", "baseDiv").innerHTML = "Basis";
+	utilities.makeElement(headRow, "td", "factorDiv").innerHTML = "Faktor";
+	return tableNode;
+}
+
+function makeNameCell(node, name, className, withHiddenInput) {
+	var myTr = utilities.makeElement(node, "tr", className);
+	myTr.id = utilities.uniqueCssName(className, name, "OuterDiv");
+	var nameDiv = utilities.makeElement(myTr, "td", "nameDiv");
+	nameDiv.innerHTML = "<b>" + name + "</b>";
+	if (withHiddenInput) {
+		var type = "name";
+		var hiddenInput = utilities.makeElement(nameDiv, "input", type + "Input, hiddenInput");
+		hiddenInput.value = name;
+		hiddenInput.type = "hidden";
+		hiddenInput.name = utilities.uniqueInputname(node.id, name, type);
+	}
+	return myTr;
 }
 
 function makeNameDiv(node, name, className, withInput, hideInput) {
@@ -710,7 +781,7 @@ function makeValueDiv(myDiv, value, nodeId, name) {
 }
 
 function makeFactorDiv(myDiv, value, nodeId, name) {
-	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "factor", "Faktor");
+	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "factor");
 }
 
 // nicht mit populateBaseAttrNode verwechseln. 
