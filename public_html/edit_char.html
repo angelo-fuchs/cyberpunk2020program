@@ -20,8 +20,10 @@
 		<form id="characterForm">
 			<div id="page1" class="page">
 				<div id="leftPane">
-					<div id="base"></div>
-					<div id="hits"></div>
+					<div id="base" class="section"></div>
+					<div id="hits" class="section"></div>
+					<div id="armorArea" class="section">
+					</div>
 				</div>
 				<div id="rightPane">
 					<div id="headingDiv">
@@ -32,19 +34,19 @@
 					document.getElementById("date_heading").innerHTML = today.toDateString();</script>
 					</div>
 					<div id="statistics">
-						<div id="attributes"></div>
-						<div id="calculatedData"></div>
+						<div id="attributes" class="section"></div>
+						<div id="calculatedData" class="section"></div>
 					</div>
-					<div id="skills"></div>
+					<div id="skills" class="section"></div>
+					<div id="weapons" class="section"></div>
+					<div id="armor" class="section"></div>
 				</div>
 			</div>
 			<div id="page2" class="page">
-				<div id="weapons"></div>
-				<div id="armor"></div>
-				<div id="inventory"></div>
-				<div id="cyberware"></div>
-				<div id="disAdvantages"></div>
-				<div id="notes"></div>
+				<div id="inventory" class="section"></div>
+				<div id="cyberware" class="section"></div>
+				<div id="disAdvantages" class="section"></div>
+				<div id="notes" class="section"></div>
 			</div>
 		</form>
 	</body>

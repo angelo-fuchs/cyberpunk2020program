@@ -129,6 +129,7 @@ function refreshValues(currentChar) {
 	refreshPart("attributes", currentChar.attributes);
 	refreshPart("hits", currentChar.hits);
 	populateArmorNode(currentChar);
+	populateArmorAreaNode(currentChar);
 	populateSkillNode(currentChar);
 	populateWeaponNode(currentChar);
 	populateInventoryNode(currentChar);
@@ -395,6 +396,82 @@ function makeAmountDiv(myDiv, value, nodeId, name) {
 
 function makeLocationDiv(myDiv, value, nodeId, name) {
 	return utilities.makeGenericInputDiv(myDiv, value, nodeId, name, "location", "Aufbewahrungsort");
+}
+
+function populateArmorAreaNode(currentChar) {
+	var node = document.getElementById("armorArea");
+	var titleNode = utilities.makeElement(node, "span", "sectionTitle");
+	titleNode.innerHTML = "HIT LOCATION TABLE";
+	
+	var table = utilities.makeElement(node, "div", "table");
+	var headRow = utilities.makeElement(table, "div", "headRow");
+	utilities.makeElement(headRow, "div").innerHTML = "Roll";
+	utilities.makeElement(headRow, "div").innerHTML = "Location";
+	utilities.makeElement(headRow, "div").innerHTML = "DAM";
+	utilities.makeElement(headRow, "div").innerHTML = "AIM";
+	utilities.makeElement(headRow, "div").innerHTML = "SP1";
+	utilities.makeElement(headRow, "div").innerHTML = "SP2";
+	utilities.makeElement(headRow, "div").innerHTML = "SP3";
+	utilities.makeElement(headRow, "div").innerHTML = "Total";
+	var areas = [
+		["3-5", "Head", "2x", "-4"],
+		["6", "Hand", "1/2", "-4"],
+		["7", "L Arm", "1/2", "-2"],
+		["8", "R Arm", "1/2", "-2"],
+		["9", "Shoulders", "1x", "-2"],
+		["10-11", "Chest", "1x", "-1"],
+		["12", "Stomach", "1.5x", "-3"],
+		["13", "Vitals", "1.5x", "-6"],
+		["14", "Thighs", "1x", "-2"],
+		["15", "L Leg", "1/2", "-2"],
+		["16", "R Leg", "1/2", "-2"],
+		["17", "L Foot", "1/2", "-4"],
+		["18", "R Foot", "1/2", "-4"]
+	];
+	for (var areaCount in areas) { // attention! The order is important, do not change!
+		var area = areas[areaCount];
+		makeArmorArea(table, area, areaCount, currentChar);
+	}
+}
+
+function makeArmorArea(table, area, areaCount, currentChar) {
+	var armor = currentChar.armor;
+	var rowDiv = utilities.makeElement(table, "div", "contentRow");
+	for(var ii in area) {
+		var entry = area[ii];
+		utilities.makeElement(rowDiv, "div", "tableCell").innerHTML = entry;
+	}
+	var highestLayer = 1000000;
+	var total = 0;
+	for(var sps = 3; sps > 0; sps--) {
+		var currentBestLayer = {
+		"name": "Nothing",
+		"areas": [0,0,0,0,0,0,0,0,0,0,0,0,0],
+		"hard": false,
+		"layer": -1,
+		"encumberence": 0
+		};
+		for(var armorCount in armor) {
+			var oneLayer = armor[armorCount];
+			if(oneLayer.layer >= highestLayer)
+				continue; // already done previously
+			var areasOfLayer = oneLayer.areas;
+			var protectionAtZone = areasOfLayer[areaCount];
+			if(protectionAtZone > 0 &&
+					oneLayer.layer > currentBestLayer.layer) {
+					currentBestLayer = oneLayer;
+			}
+		}
+		highestLayer = currentBestLayer.layer;
+		var spDiv = utilities.makeElement(rowDiv, "div", "tableCell");
+		spDiv.innerHTML = currentBestLayer.areas[areaCount];
+		if(currentBestLayer.hard) {
+			spDiv.class = "tableCell hardArmor";
+		}
+		total += (currentBestLayer.areas[areaCount] * 1);
+	}
+	var spDiv = utilities.makeElement(rowDiv, "div", "tableCell");
+	spDiv.innerHTML = total;
 }
 
 function populateArmorNode(currentChar) {
