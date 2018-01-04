@@ -16,43 +16,36 @@
 				});" name="function-import" id="import_button"/>
 		<input type="button" value="Export" onclick="exportChar();" name="function-export" id="export_button"/>
 		<input type="button" value="Refresh" onclick="refreshChar();" name="function-refresh" id="refresh_button"/>
-		<input type="button" value="Remove Buttons" id="remove_button" onclick="{
-					var button = document.getElementById('create_button');
-					button.parentNode.removeChild(button);
-					var button = document.getElementById('import_button');
-					button.parentNode.removeChild(button);
-					var button = document.getElementById('export_button');
-					button.parentNode.removeChild(button);
-					var button = document.getElementById('refresh_button');
-					button.parentNode.removeChild(button);
-					var button = document.getElementById('remove_button');
-					button.parentNode.removeChild(button);
-				}"/>
+		<input type="button" value="Remove Buttons" id="remove_button" onclick="removeButtons();"/>
 		<form id="characterForm">
-			<div id="leftPane">
-				<div id="base"></div>
-				<div id="hits"></div>
-			</div>
-			<div id="rightPane">
-				<div id="headingDiv">
-					<div id="cyberpunk_heading">Cyberpunk</div>
-					<div id="charsheet_heading">Character Sheet</div>
-					<div id="date_heading"></div>
-					<script>var today = new Date();
-				document.getElementById("date_heading").innerHTML = today.toDateString();</script>
+			<div id="page1" class="page">
+				<div id="leftPane">
+					<div id="base"></div>
+					<div id="hits"></div>
 				</div>
-				<div id="statistics">
-					<div id="attributes"></div>
-					<div id="calculatedData"></div>
+				<div id="rightPane">
+					<div id="headingDiv">
+						<div id="cyberpunk_heading">Cyberpunk</div>
+						<div id="charsheet_heading">Character Sheet</div>
+						<div id="date_heading"></div>
+						<script>var today = new Date();
+					document.getElementById("date_heading").innerHTML = today.toDateString();</script>
+					</div>
+					<div id="statistics">
+						<div id="attributes"></div>
+						<div id="calculatedData"></div>
+					</div>
+					<div id="skills"></div>
 				</div>
-				<div id="skills"></div>
 			</div>
-			<div id="weapons"></div>
-			<div id="armor"></div>
-			<div id="inventory"></div>
-			<div id="cyberware"></div>
-			<div id="disAdvantages"></div>
-			<div id="notes"></div>
+			<div id="page2" class="page">
+				<div id="weapons"></div>
+				<div id="armor"></div>
+				<div id="inventory"></div>
+				<div id="cyberware"></div>
+				<div id="disAdvantages"></div>
+				<div id="notes"></div>
+			</div>
 		</form>
 	</body>
 </html>

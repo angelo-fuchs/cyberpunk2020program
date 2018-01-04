@@ -84,7 +84,7 @@ function addArmor() {
 		currentChar.armor.push(
 						{
 							"name": name,
-		          "areas": [0,0,0,0,0,0,0,0,0,0,0,0,0],
+							"areas": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 							"hard": false,
 							"layer": 0,
 							"encumberence": 0
@@ -114,8 +114,8 @@ function addCyberitem() {
 
 function addNote() {
 	var currentChar = makeCharFromForm();
-	var nextOrder = currentChar.notes.length +1;
-	currentChar.notes.push( { "order": nextOrder, "value": "" } );
+	var nextOrder = currentChar.notes.length + 1;
+	currentChar.notes.push({"order": nextOrder, "value": ""});
 	refreshValues(currentChar);
 }
 
@@ -156,7 +156,7 @@ function populateNotesNode(currentChar) {
 		if (result === 0 || result === undefined) {
 			return a.value.toLowerCase().localeCompare(b.value.toLowerCase());
 		} else {
-			return result;	
+			return result;
 		}
 	});
 	makeHeader(node, "Notizen");
@@ -166,7 +166,7 @@ function populateNotesNode(currentChar) {
 		var orderDiv = utilities.makeGenericInputDiv(myDiv, nextItem.order, node.id, ii, "order", "Reihenfolge");
 		var orderDiv = utilities.makeTextAreaDiv(myDiv, nextItem.value, node.id, ii, "value", "Notiz");
 	}
-	addAddButton(node, "note", "Notiz hinzufügen", function() {
+	addAddButton(node, "note", "Notiz hinzufügen", function () {
 		addNote();
 	});
 }
@@ -174,7 +174,7 @@ function populateNotesNode(currentChar) {
 function getAttribute(currentChar, attribute) {
 	for (var ii in currentChar.attributes) {
 		var nextAttr = currentChar.attributes[ii];
-		if(nextAttr.name === attribute) {
+		if (nextAttr.name === attribute) {
 			return nextAttr.value;
 		}
 	}
@@ -209,12 +209,18 @@ function makeACalcDiv(node, value, name) {
 function calculateDamText(currentChar, withSero) {
 	var bt = calculateBT(currentChar);
 	switch (bt) {
-		case "VW": return "-2";
-		case "W": return "-1";
-		case "A": return withSero ? "+0" : "";
-		case "S": return "+1";
-		case "VS": return "+2";
-		default: return "+" + (getAttribute(currentChar, "Body") -7);
+		case "VW":
+			return "-2";
+		case "W":
+			return "-1";
+		case "A":
+			return withSero ? "+0" : "";
+		case "S":
+			return "+1";
+		case "VS":
+			return "+2";
+		default:
+			return "+" + (getAttribute(currentChar, "Body") - 7);
 	}
 }
 
@@ -235,18 +241,24 @@ function calculateCarry(currentChar) {
 
 function calculateBT(currentChar) {
 	var body = getAttribute(currentChar, "Body");
-	switch(body) {
+	switch (body) {
 		case "1":
-		case "2": return "VW"; // Very weak
+		case "2":
+			return "VW"; // Very weak
 		case "3":
-		case "4": return "W"; // Weak
+		case "4":
+			return "W"; // Weak
 		case "5":
 		case "6":
-		case "7": return "A"; // Average
+		case "7":
+			return "A"; // Average
 		case "8":
-		case "9": return "S"; // Strong
-		case "10": return "VS"; // Very Strong
-		default: return "SH"; // Superhuman
+		case "9":
+			return "S"; // Strong
+		case "10":
+			return "VS"; // Very Strong
+		default:
+			return "SH"; // Superhuman
 	}
 }
 
@@ -261,13 +273,19 @@ function calculateHealPerDay(currentChar) {
 // Body Type Modifier (that gets subtracted from taken damage)
 function calculateBTM(currentChar) {
 	var bt = calculateBT(currentChar);
-	switch(bt) {
-		case "VW": return -0;
-		case "W": return -1;
-		case "A": return -2;
-		case "S": return -3;
-		case "VS": return -4;
-		case "SH": return -5;
+	switch (bt) {
+		case "VW":
+			return -0;
+		case "W":
+			return -1;
+		case "A":
+			return -2;
+		case "S":
+			return -3;
+		case "VS":
+			return -4;
+		case "SH":
+			return -5;
 	}
 }
 
@@ -325,7 +343,7 @@ function populateCyberwareNode(currentChar) {
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
 	}
-	addAddButton(node, "cyberitem", "Cyberware hinzufügen", function() {
+	addAddButton(node, "cyberitem", "Cyberware hinzufügen", function () {
 		addCyberitem();
 	});
 }
@@ -338,7 +356,7 @@ function populateInventoryNode(currentChar) {
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
 	makeHeader(node, "Ausrüstung");
-	
+
 	for (var ii in dataArray) {
 		var nextItem = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextItem.name, "itemDiv", true, false);
@@ -347,8 +365,8 @@ function populateInventoryNode(currentChar) {
 		var costDiv = makeCostDiv(myDiv, nextItem.cost, node.id, nextItem.name);
 		var locationDiv = makeLocationDiv(myDiv, nextItem.location, node.id, nextItem.name);
 	}
-	
-	addAddButton(node, "item", "Gegenstand hinzufügen", function() {
+
+	addAddButton(node, "item", "Gegenstand hinzufügen", function () {
 		addItem();
 	});
 }
@@ -389,9 +407,9 @@ function populateArmorNode(currentChar) {
 			return layerCompare;
 		return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
 	});
-	
+
 	makeHeader(node, "Rüstung");
-	
+
 	for (var ii in dataArray) {
 		var nextArmor = dataArray[ii];
 		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true, false);
@@ -401,7 +419,7 @@ function populateArmorNode(currentChar) {
 		var layerDiv = makeLayerDiv(hleDiv, nextArmor.layer, node.id, nextArmor.name);
 		var encumbranceDiv = makeEncumbranceDiv(hleDiv, nextArmor.encumberence, node.id, nextArmor.name);
 	}
-	addAddButton(node, "armor", "Rüstung hinzufügen", function() {
+	addAddButton(node, "armor", "Rüstung hinzufügen", function () {
 		addArmor();
 	});
 }
@@ -469,17 +487,30 @@ function populateWeaponNode(currentChar) {
 		var reliabilityDiv = makeReliabilityDiv(racDiv, nextWeapon.reliability, node.id, nextWeapon.name);
 		var damageDiv = makeDamageDiv(racDiv, nextWeapon.damage, node.id, nextWeapon.name);
 	}
-	addAddButton(node, "weapon", "Waffe hinzufügen", function() {
+	addAddButton(node, "weapon", "Waffe hinzufügen", function () {
 		addWeapon();
 	});
 }
+
+var buttons = ['create_button','import_button','export_button','refresh_button','remove_button'];
 
 function addAddButton(node, type, text, callback) {
 	var buttonDiv = utilities.makeElement(node, "div", type + "Div");
 	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
 	addButton.value = text;
+	addButton.id = "add" + type + "Button";
+	if(!buttons.includes(addButton.id))
+		buttons.push(addButton.id);
 	addButton.type = "button";
 	addButton.onclick = callback;
+}
+
+function removeButtons() {
+	for (var ii in buttons) {
+		var buttonId = buttons[ii];
+		var button = document.getElementById(buttonId);
+		button.parentNode.removeChild(button);
+	}
 }
 
 function makeHeader(parentNode, name) {
@@ -572,18 +603,14 @@ function populateSkillNode(currentChar) {
 		var baseDiv = makeBaseDiv(myDiv, nextSkill.base, node.id, nextSkill.name);
 		var factorDiv = makeFactorDiv(myDiv, nextSkill.factor, node.id, nextSkill.name);
 	}
-	var buttonDiv = utilities.makeElement(node, "div", "skillDiv");
-	var addButton = utilities.makeElement(buttonDiv, "input", "addButton");
-	addButton.value = "Fertigkeit hinzufügen";
-	addButton.type = "button";
-	addButton.onclick = function () {
+	addAddButton(node, "skill", "Fertigkeit hinzufügen", function () {
 		addSkill();
-	};
+	});
 }
 
 function makeNameDiv(node, name, className, withInput, hideInput) {
 	var myDiv = utilities.makeElement(node, "div", className);
-	myDiv.id=utilities.uniqueCssName(className, name, "OuterDiv");
+	myDiv.id = utilities.uniqueCssName(className, name, "OuterDiv");
 	var nameDiv = utilities.makeElement(myDiv, "div", "nameDiv");
 	if (withInput === true) {
 		var type = "name";
