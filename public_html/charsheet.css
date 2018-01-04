@@ -128,7 +128,7 @@ h2 {
 #calculatedData {
 	float: left;
 	display: flex;
-	width: 327px;
+	width: 335px;
 	height: 133px;
 	flex-flow: row wrap;
 	align-content: flex-start;
