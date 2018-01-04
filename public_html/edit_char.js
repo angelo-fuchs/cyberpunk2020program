@@ -648,6 +648,7 @@ function makeSkillDiv(myDiv, value, nodeId, name) {
 	makeOption(skillSelect, "Pistole", value);
 	makeOption(skillSelect, "Schwere Waffen", value);
 	makeOption(skillSelect, "SMG", value);
+	makeOption(skillSelect, "Sniper", value);
 	makeOption(skillSelect, "Werfen", value);
 	return skillDiv;
 }
