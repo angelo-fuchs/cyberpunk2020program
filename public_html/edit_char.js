@@ -505,7 +505,7 @@ function populateArmorNode(currentChar) {
 
 	for (var ii in dataArray) {
 		var nextArmor = dataArray[ii];
-		var myDiv = makeNameDiv(node, nextArmor.name, "armorDiv", true, false);
+		var myDiv = makeNameDiv(armorNode, nextArmor.name, "armorDiv", true, false);
 		var areasDiv = makeAreasDiv(myDiv, nextArmor.areas, armorNode.id, nextArmor.name);
 		var hleDiv = utilities.makeElement(myDiv, "div", "hleDiv");
 		var hardnessDiv = makeHardnessDiv(hleDiv, nextArmor.hard, armorNode.id, nextArmor.name);
@@ -576,7 +576,8 @@ function populateWeaponNode(currentChar) {
 	for (var ii in dataArray) {
 		var nextWeapon = dataArray[ii];
 		var weaponRow = utilities.makeElement(table, "tr", "weaponRow");
-		var nameDiv = makeNameDiv(weaponRow, nextWeapon.name, "weaponDiv", true, false);
+		var nameDiv = makeNameDiv(weaponsNode, nextWeapon.name, "weaponDiv", true, false);
+		weaponRow.appendChild(nameDiv);
 		makeSkillDiv(nameDiv, nextWeapon.skill, weaponsNode.id, nextWeapon.name);
 		makeRangeDiv(nameDiv, nextWeapon.range, weaponsNode.id, nextWeapon.name);
 		makeConcealabilityDiv(nameDiv, nextWeapon.concealability, weaponsNode.id, nextWeapon.name);
